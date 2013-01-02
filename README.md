@@ -2,9 +2,9 @@
 
 A collection of utility classes that make integrating Sencha's ExtJS into rails easier.
 
-== Contributing to nas-extjs
+Specifically it includes:
  
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+ * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
 * Start a feature/bugfix branch.
