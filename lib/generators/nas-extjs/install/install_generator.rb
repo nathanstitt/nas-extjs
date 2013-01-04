@@ -5,6 +5,7 @@ module NasExtjs
     module Generators
 
         class InstallGenerator < Rails::Generators::Base
+
             desc "Some description of my generator here"
 
             # Commandline options can be defined here using Thor-like options:
