@@ -3,8 +3,8 @@ module Extjs
 
     class Controller
 
+        before_filter   :api_strip_record_id, :only=>[:create]
         class_attribute :model_class
-        class_attribute :read_only
 
         def index
             query = api_query( model_class )
