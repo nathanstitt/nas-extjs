@@ -2,7 +2,7 @@ require 'rails/generators'
 
 module NasExtjs
 
-    module Generators
+
 
         class InstallGenerator < Rails::Generators::Base
 
@@ -22,6 +22,6 @@ module NasExtjs
             # Generator Code. Remember this is just suped-up Thor so methods are executed in order
         end
 
-    end
+
 
 end
