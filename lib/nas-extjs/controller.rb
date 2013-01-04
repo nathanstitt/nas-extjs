@@ -1,6 +1,6 @@
 module NasExtjs
 
-    class Controller
+    class Controller < ActionController::Base
 
         before_filter   :api_strip_record_id, :only=>[:create]
         class_attribute :model_class
