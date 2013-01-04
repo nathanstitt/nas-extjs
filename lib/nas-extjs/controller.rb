@@ -1,5 +1,4 @@
-module Nas
-module Extjs
+module NasExtjs
 
     class Controller
 
@@ -190,5 +189,5 @@ module Extjs
 
     end
 
-end # Extjs
-end # Nas
+end # NasExtjs
+
