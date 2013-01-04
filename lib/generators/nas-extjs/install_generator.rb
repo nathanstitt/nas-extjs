@@ -1,6 +1,7 @@
-#lib/generators/gemname/install_generator.rb
 require 'rails/generators'
-module Gemname
+
+module NasExtjs
+
     class InstallGenerator < Rails::Generators::Base
         desc "Some description of my generator here"
 
@@ -16,7 +17,6 @@ module Gemname
         end
 
         # Generator Code. Remember this is just suped-up Thor so methods are executed in order
-
-
     end
+
 end
