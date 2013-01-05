@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/generators/nas_extjs/install/install_generator.rb",
     "lib/generators/nas_extjs/install_generator.rb",
     "lib/generators/nas_extjs/templates/applib/BuildURL.coffee",
     "lib/generators/nas_extjs/templates/applib/Overrides.coffee",
