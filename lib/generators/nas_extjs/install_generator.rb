@@ -13,7 +13,7 @@ module NasExtjs
             %w{ lib ux }.each do | dir |
                 directory "public/app/#{dir}"
             end
-            %w{ model store view }.each do | dir |
+            %w{ model store }.each do | dir |
                 directory "public/app/#{dir}"
                 directory "public/app/#{dir}/mixins"
             end
