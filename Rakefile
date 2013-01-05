@@ -17,7 +17,7 @@ Jeweler::Tasks.new do |gem|
     gem.name = "nas-extjs"
     gem.homepage = "http://github.com/nathanstitt/nas-extjs"
     gem.license = "MIT"
-    gem.summary = %Q{Collection of functions to make working with Extjs and rails work together better}
+    gem.summary = %Q{Controller and utilities to make Extjs and rails work together better}
     gem.description = %Q{Collection of functions to make working with Extjs and rails work together better}
     gem.email = "nathan@stitt.org"
     gem.authors = ["Nathan Stitt"]
