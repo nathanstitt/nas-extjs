@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/TelDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TimePickerField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/VisibleIdField.coffee",
-    "lib/nas-extjs.rb",
     "lib/nas-extjs/controller.rb",
     "nas-extjs.gemspec",
     "test/helper.rb",
