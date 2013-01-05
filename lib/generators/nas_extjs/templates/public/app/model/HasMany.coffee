@@ -1,21 +1,20 @@
 
-Ext.define('App.model.HasMany', {
-    extend: 'Ext.data.Association' #'App.model.Association'
+Ext.define 'App.model.HasMany'
 
-    requires: ['Ext.util.Inflector']
+    extend   : 'App.model.Association'
+    alias    : 'association.hasmany'
+    requires : [
+        'Ext.util.Inflector'
+    ]
 
     constructor: (config) ->
         me = this
 
-
-        if ! config.model?
+        unless config.model?
             config.model = 'App.model.' +
                 Ext.string.capitialize( Ext.util.Inflector.singularize( config.associatedName ) )
 
         me.callParent(arguments);
-
-#        console.log( me.ownerModel.$className )
-#        console.log( '    ' + config.model )
 
         me.name = me.name || Ext.util.Inflector.pluralize(me.associatedName.toLowerCase());
 
@@ -36,7 +35,7 @@ Ext.define('App.model.HasMany', {
         associatedModel = that.associatedModel
         storeClass      = that.storeClass ||
            'App.store.' +   Ext.util.Inflector.pluralize( Util.baseClassName( that.model ) )
-        storeClass      = that.storeClass || 'App.store.' +  Util.baseClassName( that.model ).pluralize()
+
         storeName       = that.storeName
         foreignKey      = that.foreignKey
         primaryKey      = that.primaryKey
@@ -89,6 +88,3 @@ Ext.define('App.model.HasMany', {
                 store.data.each( (associatedRecord)->
                     associatedRecord[ inverse.instanceName ] = record;
                 )
-
-
-});

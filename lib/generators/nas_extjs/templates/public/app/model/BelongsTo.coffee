@@ -1,6 +1,7 @@
 
 Ext.define('App.model.BelongsTo', {
     extend: 'App.model.Association'
+    alias: 'association.belongsto'
 
     constructor: (config) ->
         associatedName = config.associatedName
@@ -12,8 +13,6 @@ Ext.define('App.model.BelongsTo', {
         this.callParent(arguments)
         me             = this
         ownerProto     = me.ownerModel.prototype
-#        if this.ownerName == 'App.model.Tenant'
-
 
         Ext.applyIf(me, {
             name           : associatedName,
@@ -30,20 +29,13 @@ Ext.define('App.model.BelongsTo', {
         this
 
     checkLoaded:->
-        me              = this
+        me = this
         return ->
             this[ me.instanceName ]?
 
     createGetter: ->
-        me              = this
-        # ownerModel      = me.ownerModel
-        # associatedName  = me.associatedName
-        # associationKey  = me.associationKey
+        me = this
 
-        # associatedModel = me.associatedModel
-        # foreignKey      = me.foreignKey
-        # primaryKey      = me.primaryKey
-        # instanceName    = me.instanceName
         setFromStore = (model,fk)->
             name = Util.baseClassName( me.associatedModel.getName() ).pluralize()
             store = Application.getStore(name)
