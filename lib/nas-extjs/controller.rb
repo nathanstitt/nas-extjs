@@ -13,6 +13,7 @@ module NasExtjs
                 opts[:total_count] = query.dup.count
             end
             query = add_to_query( query, :limits=>true, :includes=>true, :sort=>true )
+            check_authorization( :index, query )
             render json_reply( query, opts )
         end
 
@@ -22,26 +23,33 @@ module NasExtjs
             if params[:id]
                 query = query.where({ :id => params[:id] })
             end
+            check_authorization( :show, query )
             render json_reply( query, opts )
         end
 
         def create
             rec = model_class.new( model_class.sanitize_json( params[:data] ) )
+            check_authorization( :create, rec )
             render json_reply( rec, api_reply_options.merge( { success: rec.save } ) )
         end
 
 
         def update
             rec = get_record_for_update
+            check_authorization( :update, rec )
             render_update( rec )
         end
 
         def destroy
             rec = get_record_for_update
+            check_authorization( :destroy, rec )
             render json_reply( rec, api_reply_options.merge( { success: rec.destroy } ) )
         end
 
         protected
+
+        def check_authorization( method, rec )
+        end
 
         def api_find_options(opts={})
             if params[:include]
