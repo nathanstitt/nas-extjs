@@ -15,9 +15,12 @@ module NasExtjs
                 directory "public/app/#{dir}"
             end
             directory "lib/tasks"
+
         end
 
-        
+        def build_coffee_files
+            rake("build:coffee")
+        end
     end
 
 
