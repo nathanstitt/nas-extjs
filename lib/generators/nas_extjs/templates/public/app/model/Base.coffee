@@ -47,7 +47,7 @@ Ext.define 'App.model.Base'
 
         , this )
 
-    save: ( options )->
+    save: ( options={} )->
         if options.syncAssociations
             for opt in options.syncAssociations
                 opt = Ext.Object.getKeys(opt)[0] if Ext.isObject( opt )
