@@ -10,9 +10,11 @@ module NasExtjs
         source_root File.expand_path( '../templates', __FILE__ )
 
 
-        def create_util_files
-            puts 'Makeing Direcory '
-            directory 'public/app/lib'
+        def copy_extjs_files
+            %w{ lib model store ux }.each do | dir |
+                directory "public/app/#{dir}"
+            end
+            directory "lib/tasks"
         end
     end
 
