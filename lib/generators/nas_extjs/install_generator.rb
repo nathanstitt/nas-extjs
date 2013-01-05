@@ -11,6 +11,7 @@ module NasExtjs
 
 
         def create_util_files
+            puts 'Makeing Direcory Foo'
             directory 'foo'
         end
     end
