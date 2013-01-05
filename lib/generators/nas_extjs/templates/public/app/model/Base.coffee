@@ -1,8 +1,12 @@
 Ext.define 'App.model.Base'
-    extend: 'Ext.data.Model'
 
-    require: [
+    extend   : 'Ext.data.Model'
+    requires : [
         'App.model.BelongsTo'
+        'Ext.data.reader.Json'
+        'Ext.data.writer.Json'
+        'Ext.data.proxy.Ajax'
+        'Ext.util.Inflector'
     ]
 
     constructor: (options={})->

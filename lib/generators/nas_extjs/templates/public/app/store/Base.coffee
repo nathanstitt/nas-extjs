@@ -1,8 +1,15 @@
 Ext.define 'App.store.Base'
 
-    extend: 'Ext.data.Store'
-    buffered: false
-    pageSize: 50
+    extend   : 'Ext.data.Store'
+    buffered : false
+    pageSize : 50
+    requires : [
+        'App.model.BelongsTo'
+        'Ext.data.reader.Json'
+        'Ext.data.writer.Json'
+        'Ext.data.proxy.Ajax'
+        'Ext.util.Inflector'
+    ]
 
     constructor: (options={})->
         if ! this.proxy and this.api_key
