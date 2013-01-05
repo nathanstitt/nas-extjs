@@ -3,7 +3,6 @@ module NasExtjs
     class Controller < ActionController::Base
 
         before_filter   :api_strip_record_id, :only=>[:create]
-
         class_attribute :model_class
 
         def index
@@ -48,7 +47,9 @@ module NasExtjs
 
         protected
 
+
         def check_authorization( method, rec )
+            # NOOP, intended to be override by projects that use cancan
         end
 
         def api_find_options(opts={})
@@ -76,6 +77,7 @@ module NasExtjs
         end
 
         def api_query( klass, query = klass.scoped )
+
             if params[:queryScope]
                 params[:queryScope].each do | name, arg |
                     if klass.has_exported_scope?( name )
