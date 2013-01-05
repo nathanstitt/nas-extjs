@@ -3,6 +3,7 @@ module NasExtjs
     class Controller < ActionController::Base
 
         before_filter   :api_strip_record_id, :only=>[:create]
+
         class_attribute :model_class
 
         def index
@@ -42,7 +43,6 @@ module NasExtjs
 
         protected
 
-
         def api_find_options(opts={})
             if params[:include]
                 inc = params[:include]
@@ -67,9 +67,7 @@ module NasExtjs
             query
         end
 
-
         def api_query( klass, query = klass.scoped )
-
             if params[:queryScope]
                 params[:queryScope].each do | name, arg |
                     if klass.has_exported_scope?( name )
@@ -97,7 +95,6 @@ module NasExtjs
                     query = query.where( v=~/%/ ? k.matches( v ) : k.eq(v) )
                 end
             end
-
             query
         end
 
