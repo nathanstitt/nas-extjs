@@ -9,19 +9,12 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-<<<<<<< HEAD
   s.date = "2013-01-05"
-=======
-  s.date = "2013-01-04"
->>>>>>> 1a48673e7d4c7917b3cba1d3f48e4f76629dcd9f
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-<<<<<<< HEAD
-=======
     "README.md",
->>>>>>> 1a48673e7d4c7917b3cba1d3f48e4f76629dcd9f
     "README.rdoc"
   ]
   s.files = [
@@ -29,22 +22,20 @@ Gem::Specification.new do |s|
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-<<<<<<< HEAD
-    "README.rdoc",
-    "Rakefile",
-    "VERSION",
-    "lib/generators/nas_extjs/install/install_generator.rb",
-    "lib/nas-extjs.rb",
-    "lib/nas-extjs/controller.rb",
-    "nas-extjs.gemspec",
-=======
     "README.md",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "lib/generators/nas_extjs/install/install_generator.rb",
+    "lib/generators/nas_extjs/install_generator.rb",
+    "lib/generators/nas_extjs/templates/applib/BuildURL.coffee",
+    "lib/generators/nas_extjs/templates/applib/Overrides.coffee",
+    "lib/generators/nas_extjs/templates/applib/Util.coffee",
+    "lib/generators/nas_extjs/templates/applib/Util.js",
+    "lib/generators/nas_extjs/templates/applib/VTypes.coffee",
     "lib/nas-extjs.rb",
     "lib/nas-extjs/controller.rb",
->>>>>>> 1a48673e7d4c7917b3cba1d3f48e4f76629dcd9f
+    "nas-extjs.gemspec",
     "test/helper.rb",
     "test/test_nas-extjs.rb"
   ]
@@ -52,11 +43,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.23"
-<<<<<<< HEAD
   s.summary = "Controller and utilities to make Extjs and rails work together better"
-=======
-  s.summary = "Collection of functions to make working with Extjs and rails work together better"
->>>>>>> 1a48673e7d4c7917b3cba1d3f48e4f76629dcd9f
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
