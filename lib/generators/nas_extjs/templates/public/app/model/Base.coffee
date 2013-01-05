@@ -6,7 +6,12 @@ Ext.define 'App.model.Base'
     ]
 
     constructor: (options={})->
-        Ext.apply( this, options )
+        if ! this.proxy and this.api_key
+            this.setProxy( App.Util.makeProxy( this.api_key ) )
+
+        if options.includeAssociations?
+            this.setAssociations.apply( this, options.includeAssociations )
+
         this.callParent(arguments)
 
     setAssociations: ( names )->
