@@ -73,7 +73,7 @@ Ext.define 'App.model.Base'
 
     prefixedAttrs: (names...)->
         [ names, opts ] = Util.extractOptions( names )
-        prefix = ( opts.prefix || Util.baseClassName( this ).underscore() ) + '_'
+        prefix = opts.prefix || ( Util.underscore( Util.baseClassName( this ) ) + '_' )
         ret = {}
         for name in names
             ret[ prefix+name ] = this.get( name )
