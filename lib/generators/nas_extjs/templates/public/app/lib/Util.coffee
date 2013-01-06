@@ -70,8 +70,7 @@ window.Util =
 
     reloadView:(name)->
         return if ! window.Application || Util.is_reloading
-        console.clear()
-        return Application.getController('Tabs').replaceView( "App.view.#{name}" )
+        Application.reloadView( name ) if Application.reloadView
 
     changeListenerUpCaseField : (f,nv,ov,opts)->
         f.setValue( nv.toUpperCase() ) if nv
@@ -100,8 +99,7 @@ window.Util =
                         for indx in old_evs
                             ary.splice(indx,1)
             Application.controllers.remove( old )
-        controller = Application.getController( controller_name );
-        controller.init(this);
+        Application.getController( controller_name );
 
 
 assoc = (association)->
