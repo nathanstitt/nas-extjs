@@ -27,7 +27,7 @@ module NasExtjs
         end
 
         def create
-            rec = model_class.new( model_class.sanitize_json( params[:data] ) )
+            rec = model_class.new( model_class.api_sanitize_json( params[:data] ) )
             check_authorization( :create, rec )
             render json_reply( rec, api_reply_options.merge( { success: rec.save } ) )
         end
@@ -114,16 +114,23 @@ module NasExtjs
                 params[:include].each do |name|
                     if name.is_a?( Hash )
                         name.each do |k,v|
-                            inc[ k.to_sym ] = { :include=> v.map{ | vn | vn.to_sym } }
+                            if model_class.api_allowed_association?(k)
+                                inc[ k.to_sym ] = { :include=> v.map{ | vn | vn.to_sym } }
+                            end
                         end
                     elsif name.is_a?( Array )
-
+                        name.each do |k|
+                            inc[ k.to_sym ] = {} if  model_class.api_allowed_association?(k)
+                        end
                     else
-                        inc[ name.to_sym ] = {}
+                        inc[ name.to_sym ] = {} if  model_class.api_allowed_association?(name)
                     end
                 end
             end
             opts[:include] = inc
+
+            opts[:methods] = ( params[:optfields] || opts[:optfields] || [] ).select{|f| model_class.api_allowed_method?(f) }
+
             opts
         end
 
@@ -137,7 +144,7 @@ module NasExtjs
 
         def get_record_for_update
             rec = model_class.find( params[:id], api_find_options )
-            rec.assign_attributes model_class.sanitize_json( params[:data] )
+            rec.assign_attributes model_class.api_sanitize_json( params[:data] )
             rec
         end
 

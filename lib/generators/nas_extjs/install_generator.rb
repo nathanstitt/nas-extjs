@@ -24,6 +24,12 @@ module NasExtjs
         def build_coffee_files
             rake("build:coffee")
         end
+
+        def create_ext_initializer
+            
+            copy_file 'config/initializers/nas_extjs.rb'
+
+        end
     end
 
 

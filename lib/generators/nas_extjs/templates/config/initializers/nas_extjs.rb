@@ -1,0 +1,1 @@
+require 'nas_extjs'
