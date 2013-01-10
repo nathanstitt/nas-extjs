@@ -20,7 +20,7 @@ module NasExtjs::ArExt
                 options = associations.extract_options!
                 associations.each do |m|
                     self.exported_associations << m.to_s
-                    accepts_nested_attributes_for m, options
+                    accepts_nested_attributes_for m, options unless options[:read_only]
                 end
             end
 
