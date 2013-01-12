@@ -19,7 +19,7 @@ module NasExtjs::ArExt
                 associations.flatten!
                 options = associations.extract_options!
                 associations.each do |m|
-                    self.exported_associations << m.to_s
+                    self.exported_associations << m.to_sym
                     accepts_nested_attributes_for( m, options ) if options.delete(:writable)
                 end
             end
