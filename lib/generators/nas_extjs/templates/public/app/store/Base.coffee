@@ -26,6 +26,12 @@ Ext.define 'App.store.Base'
 
         this.callParent(arguments)
         this.on( 'load', this._onLoad )
+
+        this.model.prototype.associations.each( (assoc)->
+            if assoc.alwaysInclude
+                this.addAssociations( assoc.name )
+        , this )
+
         this
 
 

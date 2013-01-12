@@ -5,17 +5,16 @@
 
 Gem::Specification.new do |s|
   s.name = "nas-extjs"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-05"
+  s.date = "2013-01-12"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.md",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
@@ -23,10 +22,10 @@ Gem::Specification.new do |s|
     "Gemfile.lock",
     "LICENSE.txt",
     "README.md",
-    "README.rdoc",
     "Rakefile",
     "VERSION",
     "lib/generators/nas_extjs/install_generator.rb",
+    "lib/generators/nas_extjs/templates/config/initializers/nas_extjs.rb",
     "lib/generators/nas_extjs/templates/lib/tasks/build_coffee.rake",
     "lib/generators/nas_extjs/templates/public/app/lib/BuildURL.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/Overrides.coffee",
@@ -62,7 +61,13 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/TelDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TimePickerField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/VisibleIdField.coffee",
+    "lib/nas-extjs/ar_ext/api_serializable_hash.rb",
+    "lib/nas-extjs/ar_ext/exports_associations.rb",
+    "lib/nas-extjs/ar_ext/exports_methods.rb",
+    "lib/nas-extjs/ar_ext/exports_scope.rb",
+    "lib/nas-extjs/ar_ext/sanitizes_json.rb",
     "lib/nas-extjs/controller.rb",
+    "lib/nas_extjs.rb",
     "nas-extjs.gemspec",
     "test/helper.rb",
     "test/test_nas-extjs.rb"

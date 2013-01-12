@@ -18,6 +18,18 @@ Ext.define 'App.model.Base'
 
         this.callParent(arguments)
 
+        this.associations.each( (assoc)->
+            if assoc.alwaysInclude
+                this.addAssociations( assoc.name )
+        , this )
+
+    addAssociations: ( assoc... )->
+        prx = this.getProxy()
+        if prx.includeAssociations
+            prx.includeAssociations = Ext.Array.merge( prx.includeAssociations, assoc )
+        else
+            prx.includeAssociations = assoc
+
     setAssociations: ( names )->
         prx = this.getProxy()
         if prx.setAssociations

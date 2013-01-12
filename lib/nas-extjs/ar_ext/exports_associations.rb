@@ -20,7 +20,7 @@ module NasExtjs::ArExt
                 options = associations.extract_options!
                 associations.each do |m|
                     self.exported_associations << m.to_s
-                    accepts_nested_attributes_for m, options unless options[:read_only]
+                    accepts_nested_attributes_for( m, options ) if options.delete(:writable)
                 end
             end
 
@@ -33,7 +33,7 @@ module NasExtjs::ArExt
 
 
             def api_allowed_association?( association )
-                self.exported_optional_methods && self.exported_optional_methods.include?( association.to_sym )
+                self.exported_associations && self.exported_associations.include?( association.to_sym )
             end
 
        end
