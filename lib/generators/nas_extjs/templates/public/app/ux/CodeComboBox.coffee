@@ -6,5 +6,5 @@ Ext.define 'App.ux.CodeComboBox'
     listeners:
         select:(cb,recs,opts)->
             editor=cb.up('form')
-            grid = editor.editingPlugin.grid
-            grid.fireEvent( 'combobox_select', cb, recs[0], editor.getRecord(), editor, grid )
+            if ( editor = editor.editingPlugin ) && editor.grid
+                editor.grid.fireEvent( 'combobox_select', cb, recs[0], editor.getRecord(), editor, grid )
