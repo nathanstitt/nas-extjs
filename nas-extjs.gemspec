@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-12"
+  s.date = "2013-01-13"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/config/initializers/nas_extjs.rb",
     "lib/generators/nas_extjs/templates/lib/tasks/build_coffee.rake",
     "lib/generators/nas_extjs/templates/public/app/lib/BuildURL.coffee",
-    "lib/generators/nas_extjs/templates/public/app/lib/Overrides.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/Util.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/VTypes.coffee",
     "lib/generators/nas_extjs/templates/public/app/model/Association.coffee",
@@ -43,8 +42,8 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/store/mixins/HasSelections.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/BoxSelect.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/BoxSelectField.coffee",
-    "lib/generators/nas_extjs/templates/public/app/ux/CodeComboBox.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/CodeField.coffee",
+    "lib/generators/nas_extjs/templates/public/app/ux/CustomComboBox.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/DateTimeField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/DateTimePicker.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/EmailDisplayField.coffee",
