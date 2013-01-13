@@ -55,7 +55,6 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/NumericField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/RadioColumn.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/SelectedColumn.coffee",
-    "lib/generators/nas_extjs/templates/public/app/ux/SkuComboBox.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/StateField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TelDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TimePickerField.coffee",
