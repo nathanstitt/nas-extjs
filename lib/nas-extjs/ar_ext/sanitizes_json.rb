@@ -47,7 +47,7 @@ module NasExtjs::ArExt
             end
 
             def _is_exported?( name )
-                self.exported_associations && self.exported_associations.find{|n| n + '_attributes' == name }
+                self.exported_associations && self.exported_associations.find{|n| n.to_s + '_attributes' == name }
             end
 
             def _accepts_nested?(name)

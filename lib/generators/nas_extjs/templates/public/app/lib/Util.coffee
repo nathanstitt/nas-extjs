@@ -68,9 +68,19 @@ window.Util =
     getStore: (name)->
         Ext.data.StoreManager.lookup( name ) || Ext.create( "App.store.#{name}", { storeId: name } )
 
-    reloadView:(name)->
-        return if ! window.Application || Util.is_reloading
-        Application.reloadView( name ) if Application.reloadView
+    relayEventsToGrid: (names...)->
+        events={}
+        for name in names
+            events[ name ] = (field)->
+                if ( form = field.up('form') ) && ( editor = form.editingPlugin ) && editor.grid
+                    editor.grid.fireEvent( 'edit_' + field.name + '_' + name, field, {
+                        arguments: Array.prototype.slice.call(arguments,1)
+                        record: editor.getEditor().getRecord()
+                        form: form.getForm()
+                        editor: editor
+                        grid: editor.grid
+                    })
+        events
 
     changeListenerUpCaseField : (f,nv,ov,opts)->
         f.setValue( nv.toUpperCase() ) if nv
@@ -83,6 +93,10 @@ window.Util =
             return [ args[ 0 .. args.length ],  args[ args.length-1 ] ]
         else
             return [ args, {} ]
+
+    reloadView:(name)->
+        return if ! window.Application || Util.is_reloading
+        Application.reloadView( name ) if Application.reloadView
 
     reloadController: (controller_name)->
         return if ! window.Application || Util.is_reloading

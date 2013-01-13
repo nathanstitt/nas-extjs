@@ -11,8 +11,8 @@ Ext.define 'App.ux.CustomComboBox'
             if ( form = cb.up('form') ) && ( editor = form.editingPlugin ) && editor.grid
                 editor.grid.fireEvent( 'combobox_select', recs[0], {
                     combobox:cb
-                    record: editor.getEditor().getRecord(),
-                    form: form,
-                    editor: editor,
+                    record: editor.getEditor().getRecord()
+                    form: form.getForm()
+                    editor: editor
                     grid: editor.grid
                 })
