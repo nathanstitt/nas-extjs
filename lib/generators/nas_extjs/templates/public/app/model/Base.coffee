@@ -37,6 +37,8 @@ Ext.define 'App.model.Base'
         else
             prx.setAssociations = names.slice(0)
 
+    toString:->
+        this.$className + ' ' + ( if this.phantom then "(new)" else String(this.getId()) )
 
     copyFrom: (sourceRecord) ->
         this.callParent( arguments )
@@ -59,8 +61,6 @@ Ext.define 'App.model.Base'
                     this[ assoc.associatedName ]().each ( our_rec )->
                         if ( new_rec = new_records.get( our_rec.getId() ) )
                             our_rec.copyFrom( new_rec )
-
-
         , this )
 
     save: ( options={} )->
