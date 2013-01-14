@@ -60,3 +60,10 @@ input.rightAlign, .rightAlign input {
 }
 
 
+.x-mask-loading.success {
+  background-image: url("/images/nas-extjs/success.png")
+}
+ 
+.x-mask-loading.failure {
+  background-image: url("/images/nas-extjs/failure.png")
+}
