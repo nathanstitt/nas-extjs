@@ -19,7 +19,7 @@ module NasExtjs
             end
             directory "lib/tasks"
             directory "public/resources/sass/default"
-            directory "public/images/nas_extjs"
+            directory "public/images/nas-extjs"
         end
 
         def build_coffee_files

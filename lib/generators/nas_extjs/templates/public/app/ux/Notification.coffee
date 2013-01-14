@@ -11,7 +11,7 @@
 # *	Version: 2.1
 # *	Last changed date: 2012-08-12
 #
-Ext.define "Ext.ux.window.Notification",
+Ext.define "App.ux.Notification"
   extend: "Ext.window.Window"
   alias: "widget.uxNotification"
   cls: "ux-notification-window"
@@ -74,7 +74,7 @@ Ext.define "Ext.ux.window.Notification",
     me.position = me.position.replace(/c/, "")
     me.updateAlignment me.position
     me.setManager me.manager
-    me.callParent arguments_
+    me.callParent arguments
 
   onRender: ->
     me = this
@@ -86,7 +86,7 @@ Ext.define "Ext.ux.window.Notification",
         me.closeOnMouseOut = false
         me.close()
     ), me
-    @callParent arguments_
+    @callParent arguments
 
   updateAlignment: (position) ->
     me = this
@@ -274,7 +274,7 @@ Ext.define "Ext.ux.window.Notification",
       duration: me.slideInDuration
       dynamic: true
 
-    @callParent arguments_
+    @callParent arguments
 
   slideBack: ->
     me = this
@@ -355,7 +355,7 @@ Ext.define "Ext.ux.window.Notification",
       me.isHiding = false
       me.readyToHide = false
       me.removeCls "notification-fixed"
-      me.callParent arguments_
+      me.callParent arguments
       me.destroy()  if me.destroyAfterHide
 
   destroy: ->
@@ -364,7 +364,7 @@ Ext.define "Ext.ux.window.Notification",
       me.destroyAfterHide = true
       me.hide me.animateTarget, me.doClose, me
     else
-      me.callParent arguments_
+      me.callParent arguments
 
 
 #	Changelog:
