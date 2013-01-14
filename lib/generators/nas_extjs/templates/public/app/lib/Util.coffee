@@ -1,17 +1,14 @@
 # Utils for ExtJS
 
-proxy_eh = (proxy, request, operation) ->
-    title = 'Error id: ' + request.status
-    if request.responseText
-        responseObj = Ext.decode(request.responseText,true);
-        if responseObj and responseObj.message?
-            Ext.Msg.alert( title,responseObj.message);
+PROXY_ERROR_HANDLER = (proxy, request, operation) ->
+    msg = if request.responseText
+            resp = Ext.decode(request.responseText,true);
+            if resp and resp.message? then resp.message else 'Unknown error: Operation did not succeed'
         else
-            Ext.Msg.alert( title, 'Unknown error: Operation did not succeed');
-    else
-        Ext.Msg.alert( title, 'Unknown response code: Unable to understand the response from the server');
+            'Unknown response code: Unable to understand the response from the server'
+    App.lib.Notification.display({ title: 'Error id: ' + request.status, icon: 'error', message: msg })
 
-proxy_sorters = ( sorters )->
+PROXY_SORTERS = ( sorters )->
     str = for sorter in sorters
         "[#{sorter.property}]=#{sorter.direction}"
     str.join('&')
@@ -39,22 +36,22 @@ window.Util =
 
     makeProxy: (name,options={})->
         return {
-            api_key: name
-            type: 'rest',
-            url : '/api/' + name
-            setAssociations: options['setAssociations'] || []
-            encodeSorters: proxy_sorters
-            includeOptionalFields: options['includeOptionalFields'] || []
-            setFilter: options['setFilter']
+            api_key               : name
+            type                  : 'rest',
+            url                   : '/api/' + name
+            setAssociations       : options['setAssociations'] || []
+            encodeSorters         : PROXY_SORTERS
+            includeOptionalFields : options['includeOptionalFields'] || []
+            setFilter             : options['setFilter']
             reader:
                 type: 'json'
                 root: 'data'
-            listeners: { exception: proxy_eh }
+            listeners: { exception: PROXY_ERROR_HANDLER }
             writer:
-                type: 'json'
-                root: 'data'
-                writeAllFields: false
-                getRecordData: (record) ->
+                type           : 'json'
+                root           : 'data'
+                writeAllFields : false
+                getRecordData  : (record) ->
                     for name,data of record.getAssociatedData()
                         delete data.id unless data.id?
                         record.data[ Util.underscore( name) + '_attributes' ] = data
