@@ -1,0 +1,62 @@
+
+.deleted td {
+  background-color: #b3b3b3;
+}
+
+
+.deleted td.name {
+  text-decoration: line-through;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.x-grid-cell .pass {
+  color: green;
+}
+
+.x-grid-cell .fail {
+  color: red;
+}
+
+input.rightAlign, .rightAlign input {
+  text-align: right;
+}
+
+.centerAlign input {
+  text-align: center;
+}
+
+
+.centerAlign .x-form-display-field {
+  text-align: center;
+  width: 100%;
+}
+
+.rightAlign  .x-form-display-field {
+  text-align: right;
+  width: 100%;
+}
+
+.x-grid-row-editor .rightAlign .x-form-display-field {
+  padding-right: 6px;
+}
+
+.x-grid-radioheader {
+  height: 14px;
+  background-image: url('/images/nas-extjs/unradioed.gif');
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.x-grid-radioheader-radioed {
+  background-image: url('/images/nas-extjs/radioed.gif');
+}
+
+.x-grid-radioheader-editor .x-form-cb-wrap {
+  text-align: center;
+}
+
+

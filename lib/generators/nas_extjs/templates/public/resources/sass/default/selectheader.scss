@@ -1,0 +1,16 @@
+
+.x-grid-selectheader {
+  height: 14px;
+  background-image: url('/images/icons/unchecked.gif');
+  background-position: 50% -2px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.x-grid-selectheader-checked {
+  background-image: url('/images/icons/checked.gif');
+}
+
+.x-grid-selectheader-editor x-form-cb-wrap {
+    text-align: center;
+}

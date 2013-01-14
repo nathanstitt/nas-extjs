@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-13"
+  s.date = "2013-01-14"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
@@ -59,6 +59,17 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/TelDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TimePickerField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/VisibleIdField.coffee",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/checked.gif",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/fader.png",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/icon16_error.png",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/icon16_info.png",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/radioed.gif",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/unchecked.gif",
+    "lib/generators/nas_extjs/templates/public/images/nas_extjs/unradioed.gif",
+    "lib/generators/nas_extjs/templates/public/resources/sass/default/box_select.scss",
+    "lib/generators/nas_extjs/templates/public/resources/sass/default/nas_extjs.scss",
+    "lib/generators/nas_extjs/templates/public/resources/sass/default/notifications.scss",
+    "lib/generators/nas_extjs/templates/public/resources/sass/default/selectheader.scss",
     "lib/nas-extjs/ar_ext/api_serializable_hash.rb",
     "lib/nas-extjs/ar_ext/exports_associations.rb",
     "lib/nas-extjs/ar_ext/exports_methods.rb",

@@ -18,7 +18,8 @@ module NasExtjs
                 directory "public/app/#{dir}/mixins"
             end
             directory "lib/tasks"
-
+            directory "public/resources/sass/default"
+            directory "public/images/nas_extjs"
         end
 
         def build_coffee_files
