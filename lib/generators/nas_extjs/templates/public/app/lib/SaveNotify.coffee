@@ -38,7 +38,7 @@ Ext.define 'App.lib.SaveNotify'
         @mask.msg = "Failed"
         this.mask.msgEl.addCls('failure')
         @mask.show()
-       if @saveOptions.failure
+        if @saveOptions.failure
            Ext.callback( @saveOptions.failure, @saveOptions.scope,[ rec, op ] )
 
 
