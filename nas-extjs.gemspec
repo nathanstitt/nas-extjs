@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/lib/tasks/build_coffee.rake",
     "lib/generators/nas_extjs/templates/public/app/lib/BuildURL.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/Notification.coffee",
+    "lib/generators/nas_extjs/templates/public/app/lib/SaveNotify.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/Util.coffee",
     "lib/generators/nas_extjs/templates/public/app/lib/VTypes.coffee",
     "lib/generators/nas_extjs/templates/public/app/model/Association.coffee",
