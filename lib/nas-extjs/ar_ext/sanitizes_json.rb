@@ -29,7 +29,7 @@ module NasExtjs::ArExt
                                                            ( key == '_destroy')
                                                            ) )
                         ret[key] = val
-                    elsif _is_exported?( key ) || _accepts_nested?( key )
+                    elsif _is_exported?( key ) && _accepts_nested?( key )
 
                         klass = self.reflections[ key.sub('_attributes','').to_sym ].class_name.constantize
                         # only Hash, Array & nil is valid for nesting attributes
