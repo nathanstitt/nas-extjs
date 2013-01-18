@@ -14,6 +14,10 @@ Ext.define 'App.lib.Notification'
             @widget.show()
             return @widget
 
+        displayError: ( options )->
+            this.display( Ext.merge(options,{
+                icon: 'error', title: 'Error'
+            }))
 
         _ensureWidget: ->
             return if @widget
@@ -23,6 +27,7 @@ Ext.define 'App.lib.Notification'
                 closeAction: 'hide'
                 iconCls: 'ux-notification-icon-information'
                 autoCloseDelay: 7000
+                slideInDuration: 500
                 spacing: 20
                 html: ''
             })
