@@ -89,7 +89,8 @@ Ext.define('App.model.BelongsTo', {
             return ret;
 
     read: (record, reader, associationData)->
-        record[this.instanceName] = reader.read([associationData]).records[0];
+        if ( data = reader.read([associationData]).records[0] )
+            record[this.instanceName] = data
 
     createSetter: ->
         me = this
