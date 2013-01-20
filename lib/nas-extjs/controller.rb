@@ -66,7 +66,8 @@ module NasExtjs
                 query = query.offset( params[:start].to_i ) if params[:start]
             end
             if opts[:includes] && ! params[:include].blank?
-                query = query.includes( params[:include] )
+                good_params = [ *params[:include] ].select({|inc| model_class.api_allowed_association?(inc) })
+                query = query.includes( good_params )
             end
             if opts[:sort]  && ! params[:sort].blank?
                 params[:sort].each do | fld, dir |
