@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-14"
+  s.date = "2013-01-20"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
@@ -77,6 +77,7 @@ Gem::Specification.new do |s|
     "lib/nas-extjs/ar_ext/exports_associations.rb",
     "lib/nas-extjs/ar_ext/exports_methods.rb",
     "lib/nas-extjs/ar_ext/exports_scope.rb",
+    "lib/nas-extjs/ar_ext/immutable_model.rb",
     "lib/nas-extjs/ar_ext/sanitizes_json.rb",
     "lib/nas-extjs/controller.rb",
     "lib/nas_extjs.rb",
