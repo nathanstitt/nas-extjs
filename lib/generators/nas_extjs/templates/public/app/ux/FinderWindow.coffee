@@ -133,9 +133,13 @@ Ext.define 'App.ux.FinderWindow'
             regex = new RegExp( '^' + val, "i");
             store.filterBy (rec,id)-> return rec.get(sk).match( regex )
         else
-            q = {}
-            q[ @searchKey ] = if 'int' == @dataType then val else val + '%'
+            filter = {}
+            condition = filter[ @searchKey ] = { value: val }
+            if 'int' != @dataType
+                condition['op']     = 'like'
+                condition['value'] += '%'
+
             Ext.apply( opts, {
-                query: q
+                filterBy: filter
             } )
             store.load( opts )

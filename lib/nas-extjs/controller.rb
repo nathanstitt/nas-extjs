@@ -95,18 +95,13 @@ module NasExtjs
                 end
             end
             if params[:filter]
-                params[:filter].each do | k,v |
-                    query = query.where( {k=>v} )
-                end
+                query = api_add_filter( klass, query, params[:filter])
             end
 
-            if params[:query].is_a? Hash
-                query = api_add_query( klass, query, params[:query] )
-            end
             query
         end
 
-        def api_add_query( klass, stmt, query )
+        def api_add_filter( klass, stmt, query )
             query.each do | k,v |
                 if k =~ /\./
                     ( table, field ) = k.split('.')
@@ -115,10 +110,10 @@ module NasExtjs
                 else
                     k = klass.arel_table[k]
                 end
-                condition = if v.is_a?( Hash ) && v.has_key?('op') && v.has_key?('value')
+                condition = if v.is_a?( Hash ) && v.has_key?('value')
                                 api_op_string_to_arel_predicate( k, v['op'], v['value'] )
                             else
-                                v=~/%/ ? k.matches( v ) : k.eq(v)
+                                v = k.eq(v)
                             end
                 stmt = stmt.where( condition )
             end
@@ -128,10 +123,12 @@ module NasExtjs
         # complete list: https://github.com/rails/arel/blob/master/lib/arel/predications.rb
         def api_op_string_to_arel_predicate( field, op, value )
             case op
-            when 'eq' then field.eq(value)
-            when 'lt' then field.lt(value)
-            when 'gt' then field.gt(value)
-            when 'ne' then field.not_eq(value)
+            when 'lt'   then field.lt(value)
+            when 'gt'   then field.gt(value)
+            when 'like' then field.matches( value )
+            when 'ne'   then field.not_eq(value)
+            else
+                field.eq(value)
             end
         end
 

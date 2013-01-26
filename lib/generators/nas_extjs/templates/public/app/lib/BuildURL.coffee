@@ -2,6 +2,17 @@
 Ext.define('App.lib.BuildURL', {
     singleton:true
 
+    filter_to_url_frag:( filter )->
+        qs = ''
+        for k,v of filter
+            if Ext.isObject(v)
+                for query_key,query_val of v
+                    qs += "&query[#{escape(k)}][#{escape(query_key)}]=#{escape(query_val)}"
+            else
+                qs += "&query[#{escape(k)}]=#{escape(v)}"
+        qs
+
+
     register: ->
         u = Ext.data.proxy.Server.prototype.buildUrl
         Ext.data.proxy.Server.prototype.buildUrl = (req)->
@@ -9,25 +20,18 @@ Ext.define('App.lib.BuildURL', {
             include = []
             opt_fields = []
             delete req.params.filter
-            if this.filterBy
-                for k,v of this.filterBy
-                    qs += "&filter[#{escape(k)}]=#{escape(v)}"
+
             if queryScope = req.operation.queryScope || this.queryScope
                 for name,data of queryScope
-                    qs += "&queryScope[#{escape(name)}]=#{escape(data)}"
+                    qs += "&scope[#{escape(name)}]=#{escape(data)}"
+
+            if this.filterBy
+                qs += App.lib.BuildURL.filter_to_url_frag( this.filterBy )
+
             if req.operation.filterBy
-                for k,v of req.operation.filterBy
-                    qs += "&filter[#{escape(k)}]=#{escape(v)}"
-            if req.operation.query
-                for k,v of req.operation.query
-                    if Ext.isObject(v)
-                        for query_key,query_val of v
-                            qs += "&query[#{escape(k)}][#{escape(query_key)}]=#{escape(query_val)}"
-                    else
-                        qs += "&query[#{escape(k)}]=#{escape(v)}"
+                qs += App.lib.BuildURL.filter_to_url_frag( req.operation.filterBy )
 
             if req.operation.sorters
-
                 delete req.params['sort']
                 sort = for sorter in req.operation.sorters
                     "sort[#{sorter.property}]=#{sorter.direction}"
