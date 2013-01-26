@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/EmailDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/EmbededWindow.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/FinderWindow.coffee",
+    "lib/generators/nas_extjs/templates/public/app/ux/FindingField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/Format.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/MailWindow.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/Notification.coffee",
