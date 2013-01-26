@@ -20,7 +20,11 @@ Ext.define('App.lib.BuildURL', {
                     qs += "&filter[#{escape(k)}]=#{escape(v)}"
             if req.operation.query
                 for k,v of req.operation.query
-                    qs += "&query[#{escape(k)}]=#{escape(v)}"
+                    if Ext.isObject(v)
+                        for query_key,query_val of v
+                            qs += "&query[#{escape(k)}][#{escape(query_key)}]=#{escape(query_val)}"
+                    else
+                        qs += "&query[#{escape(k)}]=#{escape(v)}"
 
             if req.operation.sorters
 

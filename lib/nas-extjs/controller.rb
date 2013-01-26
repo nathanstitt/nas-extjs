@@ -101,18 +101,38 @@ module NasExtjs
             end
 
             if params[:query].is_a? Hash
-                params[:query].each do | k,v |
-                    if k =~ /\./
-                        ( table, field ) = k.split('.')
-                        k = table.singularize.camelize.constantize.arel_table[field]
-                        query = query.joins(table.to_sym)
-                    else
-                        k = klass.arel_table[k]
-                    end
-                    query = query.where( v=~/%/ ? k.matches( v ) : k.eq(v) )
-                end
+                query = api_add_query( klass, query, params[:query] )
             end
             query
+        end
+
+        def api_add_query( klass, stmt, query )
+            query.each do | k,v |
+                if k =~ /\./
+                    ( table, field ) = k.split('.')
+                    k = table.singularize.camelize.constantize.arel_table[field]
+                    stmt = stmt.joins(table.to_sym)
+                else
+                    k = klass.arel_table[k]
+                end
+                condition = if v.is_a?( Hash ) && v.has_key?('op') && v.has_key?('value')
+                                api_op_string_to_arel_predicate( k, v['op'], v['value'] )
+                            else
+                                v=~/%/ ? k.matches( v ) : k.eq(v)
+                            end
+                stmt = stmt.where( condition )
+            end
+            stmt
+        end
+
+        # complete list: https://github.com/rails/arel/blob/master/lib/arel/predications.rb
+        def api_op_string_to_arel_predicate( field, op, value )
+            case op
+            when 'eq' then field.eq(value)
+            when 'lt' then field.lt(value)
+            when 'gt' then field.gt(value)
+            when 'ne' then field.not_eq(value)
+            end
         end
 
         def api_reply_options( opts = {} )
