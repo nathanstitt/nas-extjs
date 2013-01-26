@@ -59,6 +59,9 @@ Ext.define 'App.ux.FindingField'
     getRecord: ->
         return @record
 
+    getSelectedRecord: ->
+        return @record
+
     setRecord: (@record)->
         @suspendValueSet=true
         if @record
