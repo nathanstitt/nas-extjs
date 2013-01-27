@@ -76,6 +76,9 @@ Ext.define 'App.ux.FinderWindow'
 
     setDestinationElement: ( @dest_element)->
 
+    setStore: (@store)->
+        @grid.reconfigure( @store )
+        this
 
     listeners:
         show: ->
