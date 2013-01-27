@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-26"
+  s.date = "2013-01-27"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/model/HasMany.coffee",
     "lib/generators/nas_extjs/templates/public/app/model/Message.coffee",
     "lib/generators/nas_extjs/templates/public/app/model/mixins/PolymorphicSource.coffee",
-    "lib/generators/nas_extjs/templates/public/app/model/mixins/StateModel.coffee",
     "lib/generators/nas_extjs/templates/public/app/store/Base.coffee",
     "lib/generators/nas_extjs/templates/public/app/store/EmailArray.coffee",
     "lib/generators/nas_extjs/templates/public/app/store/mixins/HasSelections.coffee",
