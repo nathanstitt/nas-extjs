@@ -113,7 +113,7 @@ module NasExtjs
                 condition = if v.is_a?( Hash ) && v.has_key?('value')
                                 api_op_string_to_arel_predicate( k, v['op'], v['value'] )
                             else
-                                v = k.eq(v)
+                                api_op_string_to_arel_predicate( k, nil, v )
                             end
                 stmt = stmt.where( condition )
             end
