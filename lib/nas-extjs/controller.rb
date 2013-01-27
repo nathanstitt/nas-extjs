@@ -85,8 +85,8 @@ module NasExtjs
 
         def api_query( klass, query = klass.scoped )
 
-            if params[:queryScope]
-                params[:queryScope].each do | name, arg |
+            if params[:scope]
+                params[:scope].each do | name, arg |
                     if klass.has_exported_scope?( name )
                         args = [name]
                         args.push( arg ) unless arg.blank?
@@ -94,14 +94,14 @@ module NasExtjs
                     end
                 end
             end
-            if params[:filter]
-                query = api_add_filter( klass, query, params[:filter])
+            if params[:query]
+                query = api_add_query( klass, query, params[:query])
             end
 
             query
         end
 
-        def api_add_filter( klass, stmt, query )
+        def api_add_query( klass, stmt, query )
             query.each do | k,v |
                 if k =~ /\./
                     ( table, field ) = k.split('.')
@@ -123,12 +123,13 @@ module NasExtjs
         # complete list: https://github.com/rails/arel/blob/master/lib/arel/predications.rb
         def api_op_string_to_arel_predicate( field, op, value )
             case op
+            when 'eq'   then field.eq(value)
+            when 'ne'   then field.not_eq(value)
             when 'lt'   then field.lt(value)
             when 'gt'   then field.gt(value)
             when 'like' then field.matches( value )
-            when 'ne'   then field.not_eq(value)
             else
-                field.eq(value)
+                value =~ /%/ ? field.matches( value ) : field.eq( value )
             end
         end
 
