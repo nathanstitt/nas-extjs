@@ -94,7 +94,7 @@ module NasExtjs
                     end
                 end
             end
-            if params[:query]
+            if params[:query].is_a?(Hash)
                 query = api_add_query( klass, query, params[:query])
             end
 
