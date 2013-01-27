@@ -37,8 +37,17 @@ Ext.define 'App.model.Base'
         else
             prx.setAssociations = names.slice(0)
 
+    recordTypeName: ->
+        Util.baseClassName(this)
+
+    getTitle:->
+        this.toString()
+
+    _getRecordTypeName:->
+        if Ext.isFunction( this.getRecordTypeName ) then this.getRecordTypeName() else this.getRecordTypeName
+
     toString:->
-        Util.baseClassName(this) + ' ' + ( if this.phantom then "(new)" else String(this.recordIdentifier()) )
+        this._getRecordTypeName() + ' ' + ( if this.phantom then "(new)" else String(this.recordIdentifier()) )
 
     copyFrom: (sourceRecord) ->
         this.callParent( arguments )
