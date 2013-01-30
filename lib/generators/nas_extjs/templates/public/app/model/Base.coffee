@@ -44,13 +44,15 @@ Ext.define 'App.model.Base'
         this.toString()
 
     _getRecordTypeName:->
-        if Ext.isFunction( this.getRecordTypeName ) then this.getRecordTypeName() else this.getRecordTypeName
+        if Ext.isFunction( this.recordTypeName ) then this.recordTypeName() else this.recordTypeName
 
     toString:->
         this._getRecordTypeName() + ' ' + ( if this.phantom then "(new)" else String(this.recordIdentifier()) )
 
     copyFrom: (sourceRecord) ->
         this.callParent( arguments )
+        for name, obj of this.mixins
+            obj.copyModelDataFrom( this, sourceRecord ) if obj.copyModelDataFrom
 
         this.associations.each( (assoc)->
             if "belongsTo" == assoc.type
