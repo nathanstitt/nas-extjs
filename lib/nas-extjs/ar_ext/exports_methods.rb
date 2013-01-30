@@ -11,7 +11,7 @@ module NasExtjs::ArExt
         end
 
         module ClassMethods
-            def exports_methods( *method_names )
+            def export_methods( *method_names )
                 method_names.flatten!
                 options = method_names.extract_options!
                 storage = if options[:optional]
@@ -39,7 +39,7 @@ module NasExtjs::ArExt
                 default_scope includes( target )
                 delegate( field, opts )
 
-                self.exports_methods "#{target}_#{field}", opts
+                self.export_methods "#{target}_#{field}", opts
             end
 
             def api_allowed_method?( method )
