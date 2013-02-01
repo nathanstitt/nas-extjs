@@ -137,12 +137,12 @@ Ext.define 'App.ux.FinderWindow'
             store.filterBy (rec,id)-> return rec.get(sk).match( regex )
         else
             filter = {}
-            condition = filter[ @searchKey ] = { value: val }
-            if 'int' != @dataType
-                condition['op']     = 'like'
-                condition['value'] += '%'
-
-            Ext.apply( opts, {
-                filterBy: filter
-            } )
+            if val
+                condition = filter[ @searchKey ] = { value: val }
+                if 'int' != @dataType
+                    condition['op']     = 'like'
+                    condition['value'] += '%'
+                Ext.apply( opts, {
+                    filterBy: filter
+                } )
             store.load( opts )

@@ -34,7 +34,7 @@ Ext.define 'App.ux.MailWindow'
             { name: 'recipient',  fieldLabel: 'To', xtype: 'textfield' }
             {
                 name: 'cc', fieldLabel: 'CC'
-                xtype: 'boxselect', queryMode: 'local', displayField: 'email', store:'EmailArray'
+                xtype: 'boxselect', queryMode: 'local', displayField: 'email'#, store:'EmailArray'
                 valueField:'email', forceSelection:false, createNewOnEnter: true
                 createNewOnBlur: true, hideTrigger:true
             }
@@ -120,6 +120,8 @@ Ext.define 'App.ux.MailWindow'
                 layout:{ type: 'hbox', align: 'stretch' }
                 defaults: {labelAlign: 'right', labelWidth: 70}
             })
+
+        this.items[0].items[2].store = Ext.create('App.store.EmailArray')
         this.callParent(arguments)
         this.addEvents('msg_cancel','msg_send')
         if this.values

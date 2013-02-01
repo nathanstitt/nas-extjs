@@ -17,6 +17,7 @@ Ext.define 'App.store.Base'
 
         if options.filterBy?
             this.setFilter( options.filterBy )
+            delete options.filterBy
 
         if options.queryScope?
             this.setQueryScope( options.queryScope )

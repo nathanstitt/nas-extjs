@@ -26,7 +26,7 @@ Ext.define 'App.ux.FindingField'
             q={}
             q[ @searchKey ]=value
             @store.load({
-                query: q
+                filterBy: q
                 scope: this
                 callback: (recs,op,success)->
                     this.setRecord( recs[0] )

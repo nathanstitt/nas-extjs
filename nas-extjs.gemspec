@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Stitt"]
-  s.date = "2013-01-27"
+  s.date = "2013-02-01"
   s.description = "Collection of functions to make working with Extjs and rails work together better"
   s.email = "nathan@stitt.org"
   s.extra_rdoc_files = [
@@ -60,7 +60,6 @@ Gem::Specification.new do |s|
     "lib/generators/nas_extjs/templates/public/app/ux/StateField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TelDisplayField.coffee",
     "lib/generators/nas_extjs/templates/public/app/ux/TimePickerField.coffee",
-    "lib/generators/nas_extjs/templates/public/app/ux/VisibleIdField.coffee",
     "lib/generators/nas_extjs/templates/public/images/nas-extjs/checked.gif",
     "lib/generators/nas_extjs/templates/public/images/nas-extjs/fader.png",
     "lib/generators/nas_extjs/templates/public/images/nas-extjs/failure.png",
