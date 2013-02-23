@@ -24,29 +24,28 @@ Ext.define 'App.lib.SaveNotify'
         model.save( options )
 
     _onSuccess: (rec,op)->
+        @args   = arguments
+        @status = 'success'
         this._sceduleDestruct()
-        @mask.hide()
-        @mask.msg = "Success!"
-        this.mask.msgEl.addCls('success')
-        @mask.show()
-        if Ext.isFunction( @saveOptions.success )
-            Ext.callback( @saveOptions.success, @saveOptions.scope,[ rec, op ] )
 
     _onFailure: (rec,op)->
+        @args   = arguments
+        @status = 'failure'
         this._sceduleDestruct()
-        @mask.hide()
-        @mask.msg = "Failed"
-        this.mask.msgEl.addCls('failure')
-        @mask.show()
-        if @saveOptions.failure
-           Ext.callback( @saveOptions.failure, @saveOptions.scope,[ rec, op ] )
-
 
     _sceduleDestruct: ->
+        @mask.hide()
+        @mask.msg = Ext.String.capitalize( @status + '!')
+        this.mask.msgEl.addCls( @status )
+        @mask.show()
         ( new Ext.util.DelayedTask( this._destroyMask, this ) ).delay( 1500 )
 
     _destroyMask: ->
         @mask.destroy()
+        if Ext.isFunction( @saveOptions[@status] )
+            Ext.callback( @saveOptions[@status], @saveOptions.scope, @args )
+
+
 
 
 App.SaveNotify = App.lib.SaveNotify.createAndShow
