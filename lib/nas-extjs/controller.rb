@@ -69,6 +69,7 @@ module NasExtjs
                 good_params = [ *params[:include] ].select do |inc| 
                     if inc.is_a?(Hash)
                         inc.reject!{| name,val | ! model_class.api_allowed_association?( name )  }
+                        true
                     else
                         model_class.api_allowed_association?(inc) 
                     end
