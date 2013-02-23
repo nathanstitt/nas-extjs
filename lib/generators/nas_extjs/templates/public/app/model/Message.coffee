@@ -19,10 +19,8 @@ Ext.define 'App.model.Message'
         { name:'created_by_id', type: 'int', useNull: true }
     ]
 
-    api_key: 'messages'
+    proxy: App.Util.makeProxy( 'messages' )
 
-    toString:->
-        'Message id ' + this.getId()
 
     associations: [
         { associatedName: 'attachments',  type: 'hasMany',   model: 'App.model.Attachment', foreignKey: 'message_id', primary_key: 'id' }
