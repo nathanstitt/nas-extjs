@@ -42,6 +42,7 @@ Ext.define('App.model.BelongsTo', {
             if store
                 rec = store.getById( parseInt(fk) )
                 if rec
+                    rec[ model.inverseAssociationName ] = model if model.inverseAssociationName?
                     return model[me.instanceName] = rec
             return false
 
@@ -62,6 +63,7 @@ Ext.define('App.model.BelongsTo', {
                 overridden_cb = options.success;
 
                 options.success = ( rec, op )->
+                    rec[ model.inverseAssociationName ] = model if model.inverseAssociationName?
                     model[me.instanceName] = rec;
                     Ext.callback(overridden_cb, options.scope,[ rec, op ] );
 
@@ -69,7 +71,8 @@ Ext.define('App.model.BelongsTo', {
             else
 
                 if ! model[ me.instanceName ]?
-                    model[ me.instanceName ] = new me.associatedModel( model.data[ me.associationKey ] )
+                    model[ me.instanceName ] = rec = new me.associatedModel( model.data[ me.associationKey ] )
+                    rec[ me.inverseAssociationName ] = model if me.inverseAssociationName?
                     delete model.data[ me.associationKey ]
 
                 args = [ model[ me.instanceName ] ]
@@ -90,6 +93,7 @@ Ext.define('App.model.BelongsTo', {
 
     read: (record, reader, associationData)->
         if ( data = reader.read([associationData]).records[0] )
+            data[ record.inverseAssociationName ] = record if record.inverseAssociationName?
             record[this.instanceName] = data
 
     createSetter: ->
@@ -102,6 +106,7 @@ Ext.define('App.model.BelongsTo', {
                 method.apply( model, [ value, options, scope ] )
 
             if ( Ext.isObject( value ) )
+                value[ me.inverseAssociationName ] = me if me.inverseAssociationName?
                 model[me.instanceName] = value;
                 model.set( me.foreignKey, value.getId() );
                 if me.delegate

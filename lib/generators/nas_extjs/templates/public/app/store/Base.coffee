@@ -2,7 +2,7 @@ Ext.define 'App.store.Base'
 
     extend   : 'Ext.data.Store'
     buffered : false
-    pageSize : 50
+    pageSize : 150
     requires : [
         'App.model.BelongsTo'
         'Ext.data.reader.Json'
@@ -22,6 +22,9 @@ Ext.define 'App.store.Base'
         if options.queryScope?
             this.setQueryScope( options.queryScope )
 
+        if options.includeOptionalFields
+            this.setOptionalFields( options.includeOptionalFields )
+
         if options.includeAssociations?
             this.setAssociations.apply( this, options.includeAssociations )
 
@@ -38,9 +41,11 @@ Ext.define 'App.store.Base'
 
     setFilter: ( filt )->
         this.getProxy().filterBy = filt
+        this
 
     setAssociations: ( assoc... )->
         this.getProxy().includeAssociations = assoc
+        this
 
     addFilter: ( filt )->
         prx = this.getProxy()
@@ -48,6 +53,7 @@ Ext.define 'App.store.Base'
             Ext.apply( prx.filterBy, filt )
         else
             this.setFilter( filt )
+        this
 
     addAssociations: ( assoc... )->
         prx = this.getProxy()
@@ -55,15 +61,25 @@ Ext.define 'App.store.Base'
             prx.includeAssociations = Ext.Array.merge( prx.includeAssociations, assoc )
         else
             prx.includeAssociations = assoc
+        this
+
+    setOptionalFields: ( fields )->
+        this.getProxy().includeOptionalFields = fields
+        this
 
     setQueryScope: ( qs )->
         this.getProxy().queryScope = qs
+        this
 
-
+    isLoaded: ->
+        ( 0 != this.count() ) || this._isLoaded
+    # was
+    # ! ( 0 == this.count() ) && ( ! this.owningRecord || ! this.owningRecord.phantom ) && ( ! this._isLoaded? || ! this._isLoading() )
     ensureLoaded: ->
-        if ( 0 == this.count() ) && ( ! this.owningRecord || ! this.owningRecord.phantom ) && ( ! this.isLoaded? || ! this.isLoading() )
+        unless @isLoaded()
             this.load()
+        this
 
     _onLoad: (a,b,c)->
-        this.isLoaded = true
+        this._isLoaded = true
         this.removeListener('load', this._onLoad )

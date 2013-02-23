@@ -54,8 +54,8 @@ Ext.define 'App.model.HasMany'
                     model        : associatedModel,
                     remoteFilter : true,
                     modelDefaults: modelDefaults
-                    owningRecord : me
                 });
+                config[ me.inverseAssociationName || 'owningRecord' ] = me
 
                 if that.setFilter && Ext.isFunction( that.setFilter )
                     Ext.apply( config, that.setFilter.apply( this, [that] ) )
