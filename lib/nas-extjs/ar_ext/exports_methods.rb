@@ -20,7 +20,7 @@ module NasExtjs::ArExt
                           else
                               ( self.exported_mandatory_methods ||= [] )
                           end
-                storage.concat method_names.map{|m|m.to_sym}
+                storage.concat method_names.map{|m|m.to_s}
             end
 
             def delegate_and_export( *names )
@@ -44,13 +44,13 @@ module NasExtjs::ArExt
                     self.export_methods method_name, export_opts
                 else
                     self.exported_delegated_fields ||= []
-                    self.exported_delegated_fields << { :association => target, :method_name => method_name }
+                    self.exported_delegated_fields << { 'association' => target, 'method_name' => method_name }
                 end
             end
 
             def api_allowed_method?( method )
-                ( self.exported_optional_methods && self.exported_optional_methods.include?( method.to_sym ) ) || 
-                    ( self.exported_mandatory_methods && self.exported_mandatory_methods.include?( method.to_sym ) )
+                ( self.exported_optional_methods && self.exported_optional_methods.include?( method.to_s ) ) ||
+                    ( self.exported_mandatory_methods && self.exported_mandatory_methods.include?( method.to_s ) )
             end
 
         end
