@@ -15,10 +15,10 @@ module NasExtjs::ArExt
             def export_methods( *method_names )
                 method_names.flatten!
                 options = method_names.extract_options!
-                storage = if options[:optional]
-                              ( self.exported_optional_methods ||= [] )
-                          else
+                storage = if false == options[:optional]
                               ( self.exported_mandatory_methods ||= [] )
+                          else
+                              ( self.exported_optional_methods ||= [] )
                           end
                 storage.concat method_names.map{|m|m.to_s}
             end
@@ -32,7 +32,6 @@ module NasExtjs::ArExt
             end
 
             def delegate_and_export_field( target, field, export_opts={} )
-
                 opts = {}
                 opts[:to]=target
                 opts[:prefix]=target
