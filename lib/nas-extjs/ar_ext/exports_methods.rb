@@ -39,7 +39,7 @@ module NasExtjs::ArExt
 
                 delegate( field, opts )
                 method_name = "#{target}_#{field}"
-                if export_opts[:optional] == false
+                if false == export_opts[:optional]
                     self.export_methods method_name, export_opts
                 else
                     self.exported_delegated_fields ||= []
@@ -48,8 +48,10 @@ module NasExtjs::ArExt
             end
 
             def api_allowed_method?( method )
-                ( self.exported_optional_methods && self.exported_optional_methods.include?( method.to_s ) ) ||
+                !! (
+                    ( self.exported_optional_methods && self.exported_optional_methods.include?( method.to_s ) ) ||
                     ( self.exported_mandatory_methods && self.exported_mandatory_methods.include?( method.to_s ) )
+                    )
             end
 
         end
