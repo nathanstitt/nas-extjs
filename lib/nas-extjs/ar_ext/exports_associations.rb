@@ -12,16 +12,16 @@ module NasExtjs::ArExt
 
         module ClassMethods
 
-
-
             def export_associations( *associations )
                 self.exported_associations ||= []
                 associations.flatten!
                 options = associations.extract_options!
-                writable = options.delete(:writable)
+                writable  =  true == options.delete(:writable)
+                mandatory = false == options.delete(:optional)
                 associations.each do |m|
                     self.exported_associations << m.to_s
-                    accepts_nested_attributes_for( m, options ) if writable
+                    accepts_nested_attributes_for( m, options )  if writable
+                    self.export_methods( m,{ :optional=>false }) if mandatory
                 end
             end
 
