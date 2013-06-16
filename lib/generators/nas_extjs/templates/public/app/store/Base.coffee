@@ -2,7 +2,7 @@ Ext.define 'App.store.Base'
 
     extend   : 'Ext.data.Store'
     buffered : false
-    pageSize : 150
+    pageSize : 70
     requires : [
         'App.model.BelongsTo'
         'Ext.data.reader.Json'
@@ -25,17 +25,42 @@ Ext.define 'App.store.Base'
         if options.includeOptionalFields
             this.setOptionalFields( options.includeOptionalFields )
 
+        if options.summaryFields?
+            this.setSummaryFields( options.summaryFields )
+
         if options.includeAssociations?
             this.setAssociations.apply( this, options.includeAssociations )
 
         this.callParent(arguments)
+
+        if this.defaultFilters
+            this.setFilter( this.defaultFilters )
+
         this.on( 'load', this._onLoad )
+        this.on( 'beforeload', this._onBeforeLoad )
 
         this.model.prototype.associations.each( (assoc)->
             if assoc.alwaysInclude
                 this.addAssociations( assoc.name )
         , this )
 
+        this
+
+    clone: (options={})->
+        prx = this.getProxy()
+        store = Ext.create( this.$className, Ext.Object.merge({
+            buffered: this.buffered, pageSize: this.pageSize, remoteSort: this.remoteSort
+            filterBy: prx.filterBy,
+            includeAssociations: prx.includeAssociations,
+            queryScope: prx.queryScope
+        }, options ) )
+
+        store.sorters    = this.sorters
+        store.totalCount = this.totalCount
+        store
+
+    setSummaryFields: (fields)->
+        this.getProxy().summaryFields = fields
         this
 
 
@@ -53,6 +78,23 @@ Ext.define 'App.store.Base'
             Ext.apply( prx.filterBy, filt )
         else
             this.setFilter( filt )
+        this
+
+    removeFilter: (filter_name)->
+        prx = this.getProxy()
+        if prx.filterBy
+            delete prx.filterBy[ filter_name ]
+        this
+
+    removeQueryScope: ( qs )->
+        prx = this.getProxy()
+        delete prx.queryScope
+        this
+
+    removeAssociations: ( names... )->
+        prx = this.getProxy()
+        if prx.includeAssociations
+            prx.includeAssociations.splice(index, 1) for index, value of prx.includeAssociations when value in names
         this
 
     addAssociations: ( assoc... )->
@@ -79,6 +121,16 @@ Ext.define 'App.store.Base'
         unless @isLoaded()
             this.load()
         this
+
+    unFilteredData: ->
+        (this.snapshot || this.data)
+
+    cancelLoad: ->
+        Ext.Ajax.abort( this._current_operation.request )
+
+    _onBeforeLoad: ( me, operation )->
+        this._current_operation = operation;
+        true
 
     _onLoad: (a,b,c)->
         this._isLoaded = true

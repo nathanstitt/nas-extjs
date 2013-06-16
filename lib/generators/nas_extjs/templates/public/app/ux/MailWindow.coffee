@@ -11,7 +11,7 @@ Ext.define 'App.ux.MailWindow'
     ]
 
     alias: 'widget.mail_window'
-    height: 300
+    height: 400
 
     closeAction: 'hide'
 
@@ -141,7 +141,10 @@ if window.Application
 
 
     win = Ext.create('App.ux.MailWindow',{
-        xtraFields: [{ name: 'attach', fieldLabel: 'Attach PO', xtype: 'checkbox'}]
+        xtraFields: [
+            { name: 'attach', fieldLabel: 'Attach PO', xtype: 'checkbox'}
+            { name: 'use_generic', fieldLabel: 'Std Msg', xtype: 'checkbox'}
+        ]
         values: {
             sender:'bob@test.com', cc_self: true
             cc:['nathan@stitt.org','bob@here.com','foo@bar.com']

@@ -2,6 +2,7 @@ Ext.define 'App.model.Base'
 
     extend   : 'Ext.data.Model'
     requires : [
+        'App.lib.Util'
         'App.model.BelongsTo'
         'Ext.data.reader.Json'
         'Ext.data.writer.Json'
@@ -23,19 +24,25 @@ Ext.define 'App.model.Base'
                 this.addAssociations( assoc.name )
         , this )
 
+        for name, obj of this.mixins
+            obj.initialize( this ) if obj.initialize
+
+        this.recordIdentifier = this._recordIdentifier unless this.recordIdentifier
+
+        this
+
     addAssociations: ( assoc... )->
         prx = this.getProxy()
         if prx.includeAssociations
             prx.includeAssociations = Ext.Array.merge( prx.includeAssociations, assoc )
         else
             prx.includeAssociations = assoc
+        this
 
     setAssociations: ( names )->
-        prx = this.getProxy()
-        if prx.setAssociations
-            prx.setAssociations.concat( names )
-        else
-            prx.setAssociations = names.slice(0)
+        this.getProxy().includeAssociations = names.slice(0)
+        this
+
 
     recordTypeName: ->
         Util.baseClassName(this)
@@ -48,6 +55,16 @@ Ext.define 'App.model.Base'
 
     toString:->
         this._getRecordTypeName() + ' ' + ( if this.phantom then "(new)" else String(this.recordIdentifier()) )
+
+
+    prepareAssociatedData: (seenKeys, depth) ->
+        data = this.callParent(arguments)
+        if Ext.isObject(data)
+             for name, assoc_data of data
+                data[ Util.underscore(name) + '_attributes' ] = assoc_data
+                delete data[name]
+        data
+
 
     copyFrom: (sourceRecord) ->
         this.callParent( arguments )
@@ -75,14 +92,17 @@ Ext.define 'App.model.Base'
         , this )
 
     save: ( options={} )->
+        options.includeAssociations ||= []
+
         if options.syncAssociations
             for opt in options.syncAssociations
                 opt = Ext.Object.getKeys(opt)[0] if Ext.isObject( opt )
                 if -1 == this.associations.findIndex("associatedName", opt )
                     throw "#{opt} isn't present in associations for #{this.$className}"
                 this[ "sync_#{opt}" ] = true
-            options.includeAssociations = if Ext.isArray( options.includeAssociations ) then Ext.concat( options.includeAssociations, options.syncAssociations ) else options.syncAssociations
+            options.includeAssociations = Ext.Array.union( options.includeAssociations, options.syncAssociations )
             delete options.syncAssociations
+
         this.callParent( [options] )
 
     attrValues:( names... )->
@@ -91,7 +111,7 @@ Ext.define 'App.model.Base'
             ret[ name ] = this.get( name )
         ret
 
-    recordIdentifier: ->
+    _recordIdentifier: ->
         this.getId()
 
     prefixedAttrs: (names...)->

@@ -3,7 +3,8 @@ Ext.define 'App.model.Association'
     statics:
         AUTO_ID: 1000
 
-
+    isLoaded: ->
+        false
 
     constructor: (config) ->
         Ext.apply(this, config);

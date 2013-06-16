@@ -29,12 +29,15 @@ Ext.define 'App.model.Message'
     mixins:
         polysrc: 'App.model.mixins.PolymorphicSource'
 
-
     defaultMessages:
         PurchaseOrder: new Ext.Template('Attached please find Purchase Order # {visible_id}\n\nThank You!',{ compiled: true})
+        SalesOrder: new Ext.Template('',{ compiled: true})
+        Invoice: new Ext.Template('',{ compiled: true})
 
     defaultSubjects:
         PurchaseOrder: new Ext.Template('Purchase Order # {visible_id}',{ compiled: true})
+        SalesOrder: new Ext.Template('Sales Order # {visible_id}',{ compiled: true})
+        Invoice: new Ext.Template('Invoice # {visible_id}',{ compiled: true})
 
     setSource:(obj)->
         this.mixins.polysrc.setSource.call( this, obj)

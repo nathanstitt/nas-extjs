@@ -7,41 +7,41 @@ Ext.define 'App.lib.SaveNotify'
 
     constructor: ( @element )->
         this.callParent()
-        @mask = new Ext.LoadMask( @element, { msg:"Saving, Please wait..."} )
-        @mask.show()
+        @mask = App.ux.Masking.createAndShow( @element, {
+            message: 'Saving, Please Wait...'
+            onDestroy: Ext.bind( this._callback, this )
+        })
+
         this
 
     saveRecord: (opts={})->
         rec = @element.getForm().updateRecord().getRecord()
         this.save( rec, opts )
 
-    save: (model, @saveOptions={})->
+    save: (@model, @saveOptions={})->
+        for grid in @element.query('grid')
+            if grid.plugins && ( editor = grid.getPlugin('editor') )
+                editor.cancelEdit()
+
         options=Ext.merge( Ext.clone(@saveOptions), {
             scope: this
             success: this._onSuccess
             failure: this._onFailure
         })
-        model.save( options )
+        @model.save( options )
 
     _onSuccess: (rec,op)->
-        @args   = arguments
         @status = 'success'
-        this._sceduleDestruct()
+        @args = [ @model, op ]
+        @mask.displaySuccess()
+
 
     _onFailure: (rec,op)->
-        @args   = arguments
         @status = 'failure'
-        this._sceduleDestruct()
+        @args = [ @model, op ]
+        @mask.displayFailure()
 
-    _sceduleDestruct: ->
-        @mask.hide()
-        @mask.msg = Ext.String.capitalize( @status + '!')
-        this.mask.msgEl.addCls( @status )
-        @mask.show()
-        ( new Ext.util.DelayedTask( this._destroyMask, this ) ).delay( 1500 )
-
-    _destroyMask: ->
-        @mask.destroy()
+    _callback: ->
         if Ext.isFunction( @saveOptions[@status] )
             Ext.callback( @saveOptions[@status], @saveOptions.scope, @args )
 

@@ -1,51 +1,12 @@
 
 Ext.define('App.model.BelongsTo', {
-    extend: 'App.model.Association'
+    extend: 'App.model.SingleAssociation'
     alias: 'association.belongsto'
 
-    constructor: (config) ->
-        associatedName = config.associatedName
 
-        Ext.applyIf( config, {
-            model: 'App.model.' + associatedName.camelize()
-        } )
-
-        this.callParent(arguments)
-        me             = this
-        ownerProto     = me.ownerModel.prototype
-
-        Ext.applyIf(me, {
-            name           : associatedName,
-            accessorName   : associatedName.camelize(),
-            foreignKey     : associatedName.toLowerCase() + "_id",
-            instanceName   : associatedName.camelize() + 'BelongsToInstance',
-            associationKey : associatedName.toLowerCase()
-        })
-
-
-        ownerProto[ "get#{me.accessorName}" ] = me.createGetter()
-        ownerProto[ "set#{me.accessorName}" ] = me.createSetter()
-        ownerProto[ "is#{me.accessorName}Loaded" ] = me.checkLoaded()
-        this
-
-    checkLoaded:->
-        me = this
-        return ->
-            this[ me.instanceName ]?
 
     createGetter: ->
         me = this
-
-        setFromStore = (model,fk)->
-            name = Util.baseClassName( me.associatedModel.getName() ).pluralize()
-            store = Application.getStore(name)
-            if store
-                rec = store.getById( parseInt(fk) )
-                if rec
-                    rec[ model.inverseAssociationName ] = model if model.inverseAssociationName?
-                    return model[me.instanceName] = rec
-            return false
-
 
         return (options,scope) ->
             options = options || {};
@@ -58,29 +19,29 @@ Ext.define('App.model.BelongsTo', {
                     callback: options
                 }
 
-            if foreignKeyId && ! ( model[ me.instanceName ]? || model.data[ me.associationKey ]? ) && ! setFromStore(model,foreignKeyId)
+            if foreignKeyId && ! ( model[ me.instanceName ]? || model.data[ me.associationKey ]? ) && ! me.setFromStore(model,foreignKeyId)
 
-                overridden_cb = options.success;
+                overridden_cb = options.callback;
 
-                options.success = ( rec, op )->
+                options.callback = ( rec, op )->
                     rec[ model.inverseAssociationName ] = model if model.inverseAssociationName?
                     model[me.instanceName] = rec;
                     Ext.callback(overridden_cb, options.scope,[ rec, op ] );
 
                 me.associatedModel.load(foreignKeyId, options);
             else
-
                 if ! model[ me.instanceName ]?
                     model[ me.instanceName ] = rec = new me.associatedModel( model.data[ me.associationKey ] )
                     rec[ me.inverseAssociationName ] = model if me.inverseAssociationName?
                     delete model.data[ me.associationKey ]
 
-                args = [ model[ me.instanceName ] ]
+                record = model[ me.instanceName ]
+                if foreignKeyId
+                    record.setId( foreignKeyId )
 
+                args = [ record ]
                 Ext.callback(options, options.scope, args.concat( { success: true } ) )
-
                 Ext.callback(options.success, options.scope, args)
-
                 if ( ! foreignKeyId )
                     Ext.callback(options.failure, options.scope, args)
 
@@ -124,10 +85,11 @@ Ext.define('App.model.BelongsTo', {
                 };
 
             if (Ext.isObject(options))
-                return model.save(options);
+                model.save(options);
 
             if ( method = model[ 'afterSet' + me.accessorName ] ) && Ext.isFunction( method )
                 method.apply( model, [ value, options, scope ] )
 
+            return value
 
 })

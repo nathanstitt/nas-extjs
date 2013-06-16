@@ -6,6 +6,9 @@ Ext.define 'App.ux.FindingField'
     onTriggerClick: ()->
         this.fireEvent('searchclicked', this )
 
+    getStore: ->
+        @store
+
     setStore: (@store)->
         this
 
@@ -29,6 +32,7 @@ Ext.define 'App.ux.FindingField'
                 filterBy: q
                 scope: this
                 callback: (recs,op,success)->
+                    return unless recs
                     this.setRecord( recs[0] )
                     @unfound_values[ value ] = ( 0 == recs.length )
                     this.validate()
@@ -69,6 +73,9 @@ Ext.define 'App.ux.FindingField'
             this.fireEvent('recordset', this, @record  )
         else if ! @allowAnyValues
             this.setValue( '' )
+            this.fireEvent('invalidvalue', this )
+        else
+            this.fireEvent('newvalue', this, this.getValue() )
 
         @suspendValueSet=false
 

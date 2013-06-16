@@ -14,6 +14,9 @@ Ext.define 'App.model.HasMany'
             config.model = 'App.model.' +
                 Ext.string.capitialize( Ext.util.Inflector.singularize( config.associatedName ) )
 
+        # if 'App.model.PurchaseOrder' == config.ownerModel
+        #      debugger
+
         me.callParent(arguments);
 
         me.name = me.name || Ext.util.Inflector.pluralize(me.associatedName.toLowerCase());
@@ -70,6 +73,9 @@ Ext.define 'App.model.HasMany'
                     me[storeName].load();
 
             return me[storeName]
+
+    isLoaded: (model)->
+        model[this.storeName] && model[this.storeName].isLoaded()
 
     read: (record, reader, associationData)->
         store = record[this.name]()

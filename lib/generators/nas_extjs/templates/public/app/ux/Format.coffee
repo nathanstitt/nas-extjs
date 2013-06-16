@@ -7,3 +7,4 @@ Ext.define 'App.ux.Format'
         App.ux.Format.currency( Math.abs( parseFloat(val) ) )
 
     shortTime: Ext.util.Format.dateRenderer( "Y-m-d h:ia" )
+    shortDate: Ext.util.Format.dateRenderer( "Y-m-d" )

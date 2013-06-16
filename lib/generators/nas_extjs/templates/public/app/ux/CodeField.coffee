@@ -1,5 +1,3 @@
-
-
 Ext.define 'App.ux.CodeField'
     alias: 'widget.code_field'
     extend: 'App.ux.FindingField'
@@ -11,6 +9,9 @@ Ext.define 'App.ux.CodeField'
 
     initComponent: ->
         this.callParent()
+        if ! this.baseName && ( this.name && matches = this.name.match(/(.*)_\w+$/) )
+            this.baseName = matches[1]
+
         if this.allowAnyValues
             this.validator = this.allowAnyValidator
         if this.allowAnyCharacters

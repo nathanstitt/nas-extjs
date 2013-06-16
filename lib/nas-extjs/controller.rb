@@ -66,12 +66,12 @@ module NasExtjs
                 query = query.offset( params[:start].to_i ) if params[:start]
             end
             if opts[:includes] && ! params[:include].blank?
-                good_params = [ *params[:include] ].select do |inc| 
+                good_params = [ *params[:include] ].select do |inc|
                     if inc.is_a?(Hash)
                         inc.reject!{| name,val | ! model_class.api_allowed_association?( name )  }
                         true
                     else
-                        model_class.api_allowed_association?(inc) 
+                        model_class.api_allowed_association?(inc)
                     end
                 end
                 query = query.includes( good_params )
@@ -230,4 +230,3 @@ module NasExtjs
     end
 
 end # NasExtjs
-

@@ -17,6 +17,7 @@ Ext.define('App.lib.BuildURL', {
         u = Ext.data.proxy.Server.prototype.buildUrl
         Ext.data.proxy.Server.prototype.buildUrl = (req)->
             qs=u.apply(this,[req] )
+
             include = []
             opt_fields = []
             delete req.params.filter
@@ -30,6 +31,11 @@ Ext.define('App.lib.BuildURL', {
 
             if req.operation.filterBy
                 qs += App.lib.BuildURL.filter_to_url_frag( req.operation.filterBy )
+
+            if req.operation.summaryFields
+                qs += "&summaryFields[]=#{escape(field)}" for field in req.operation.summaryFields
+            if this.summaryFields
+                qs += "&summaryFields[]=#{escape(field)}" for field in this.summaryFields
 
             if req.operation.sorters
                 delete req.params['sort']

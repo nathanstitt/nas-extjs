@@ -17,6 +17,13 @@ Ext.define 'App.ux.CustomComboBox'
             })
 
 
+    wildCardRemoteQuery: (q, opts )->
+        q.query=q.query.toUpperCase() + '%'
+        true
+
     initComponent: ->
         this.callParent()
         this.on( 'select', this._onSelect )
+        if 'remote' == this.queryMode
+            this.on('beforequery', this.wildCardRemoteQuery )
+        this

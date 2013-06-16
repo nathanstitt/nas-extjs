@@ -46,6 +46,7 @@ window.Util =
             reader:
                 type: 'json'
                 root: 'data'
+                messageProperty: 'message'
             listeners: { exception: PROXY_ERROR_HANDLER }
             writer:
                 type           : 'json'
@@ -54,8 +55,8 @@ window.Util =
                 getRecordData  : (record) ->
                     for name,data of record.getAssociatedData()
                         delete data.id unless data.id?
-                        record.data[ Util.underscore( name) + '_attributes' ] = data
-                        delete record.data[ name ]
+                        record.data[ name ] = data
+#                        delete record.data[ name ]
                     return record.data;
         }
 
@@ -80,10 +81,10 @@ window.Util =
         events
 
     changeListenerUpCaseField : (f,nv,ov,opts)->
-        f.setValue( nv.toUpperCase() ) if nv
+        f.setValue( uc ) if nv && ( uc = nv.toUpperCase() ) && uc != nv
 
     changeListenerCodeField : (f,nv,ov,opts)->
-        f.setValue( App.Util.normalizeCode( nv ) ) if nv
+        f.setValue( norm ) if nv && ( norm = App.Util.normalizeCode( nv ) ) && norm != nv
 
     extractOptions: ( args )->
         if Ext.isObject( args[ args.length-1 ] )
@@ -122,7 +123,8 @@ assoc = (association)->
 
     switch (association.type)
         when 'belongsTo' then return Ext.create('App.model.BelongsTo', association)
-        when 'hasMany' then return Ext.create('App.model.HasMany', association)
+        when 'hasMany'   then return Ext.create('App.model.HasMany',   association)
+        when 'hasOne'    then return Ext.create('App.model.HasOne',    association )
         else
             #<debug>
             Ext.Error.raise('Unknown Association type: "' + association.type + '"');
@@ -137,4 +139,5 @@ else
     )
 
 
+Ext.define( 'App.lib.Util', { statics: window.Util } )
 Ext.define( 'App.Util', { statics: window.Util } )
