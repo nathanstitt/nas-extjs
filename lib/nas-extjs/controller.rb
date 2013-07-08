@@ -4,6 +4,8 @@ module NasExtjs
 
         before_filter   :api_strip_record_id, :only=>[:create]
         class_attribute :model_class
+        class_attribute :limit_query_results_to
+        class_attribute :nested_attribute
 
         def index
             query = api_query( model_class )
@@ -21,6 +23,9 @@ module NasExtjs
             opts  = api_reply_options
             if params[:id]
                 query = query.where({ :id => params[:id] })
+            end
+            if nested_attribute
+                query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
             end
             check_authorization( :show, query )
             render json_reply( query, opts )
@@ -60,9 +65,15 @@ module NasExtjs
             opts
         end
 
+        def query_limited_to
+            limit = limit_query_results_to || 250 # should be enough for everybody, amirite?
+            params[:limit] ? [ params[:limit].to_i, limit ].min : limit
+        end
+
+
         def add_to_query( query, opts={} )
             if opts[:limits]
-                query = query.limit( params[:limit].to_i ) if params[:limit]
+                query = query.limit( query_limited_to )
                 query = query.offset( params[:start].to_i ) if params[:start]
             end
             if opts[:includes] && ! params[:include].blank?
@@ -78,14 +89,16 @@ module NasExtjs
             end
             if opts[:sort]  && ! params[:sort].blank?
                 params[:sort].each do | fld, dir |
-                    query = query.order( "#{fld} #{dir}" )
+                    query = query.order( fld.gsub(/[^\w|^\.]/,'') + ' ' + ( 'asc' == dir.downcase ? 'ASC' : 'DESC' ) )
                 end
             end
             query
         end
 
         def api_query( klass, query = klass.scoped )
-
+            if nested_attribute
+                query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
+            end
             if params[:scope]
                 params[:scope].each do | name, arg |
                     if klass.has_exported_scope?( name )
@@ -160,6 +173,9 @@ module NasExtjs
             opts
         end
 
+        def self.set_nested_attribute( attr )
+            self.nested_attribute = attr
+        end
         def self.set_model_class( sym )
             self.model_class = sym.to_s.camelize.constantize
         end
