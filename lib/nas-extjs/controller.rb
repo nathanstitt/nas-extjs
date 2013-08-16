@@ -95,7 +95,7 @@ module NasExtjs
             query
         end
 
-        def api_query( klass, query = klass.scoped )
+        def api_query( klass, query = klass.all )
             if nested_attribute
                 query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
             end
