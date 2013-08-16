@@ -24,12 +24,6 @@ module NasExtjs::ArExt
 
         end
 
-
-        def readonly?
-            ! self.new_record?
-        end
-
-
     end
 end
 
