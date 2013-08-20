@@ -24,7 +24,7 @@ module NasExtjs
             if params[:id]
                 query = query.where({ :id => params[:id] })
             end
-            if nested_attribute
+            if nested_attribute && params[nested_attribute]
                 query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
             end
             check_authorization( :show, query )
@@ -96,7 +96,7 @@ module NasExtjs
         end
 
         def api_query( klass, query = klass.all )
-            if nested_attribute
+            if nested_attribute && params[nested_attribute]
                 query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
             end
             if params[:scope]
