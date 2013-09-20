@@ -117,17 +117,24 @@ module NasExtjs
 
         def api_add_query( klass, stmt, query )
             query.each do | k,v |
-                if k =~ /\./
-                    ( table, field ) = k.split('.')
-                    k = table.singularize.camelize.constantize.arel_table[field]
-                    stmt = stmt.joins(table.to_sym)
-                else
-                    k = klass.arel_table[k]
-                end
+
+                field = if k.include?('.')
+                            ( table_name, field_name ) = k.split('.')
+                            table = if klass.has_exported_join_table?( table_name )
+                                        Arel::Table.new( table_name )
+                                    else
+                                        stmt = stmt.joins(table_name.to_sym)
+                                        table_name.singularize.camelize.constantize.arel_table
+                                    end
+                            table[ field_name ]
+                        else
+                            klass.arel_table[k]
+                        end
+
                 condition = if v.is_a?( Hash ) && v.has_key?('value')
-                                api_op_string_to_arel_predicate( k, v['op'], v['value'] )
+                                api_op_string_to_arel_predicate( field, v['op'], v['value'] )
                             else
-                                api_op_string_to_arel_predicate( k, nil, v )
+                                api_op_string_to_arel_predicate( field, nil, v )
                             end
                 stmt = stmt.where( condition )
             end

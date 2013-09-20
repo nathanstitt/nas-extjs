@@ -32,13 +32,20 @@ module NasExtjs::ArExt
             end
 
             def delegate_and_export_field( target, field, export_opts={} )
-                opts = {}
-                opts[:to]=target
-                opts[:prefix]=target
-                opts[:allow_nil]=true
-
-                delegate( field, opts )
+                file, line = caller.first.split(':', 2)
                 method_name = "#{target}_#{field}"
+                module_eval(<<-EOS,file,line.to_i)
+                    def #{method_name}
+                       if value = read_attribute( "#{method_name}" )
+                            return value
+                       elsif !#{target}.nil? || nil.respond_to?(:#{field})
+                            return #{target}.#{field}
+                       else
+                            return nil
+                       end
+                    end
+                EOS
+
                 if false == export_opts[:optional]
                     self.export_methods method_name, export_opts
                 else
