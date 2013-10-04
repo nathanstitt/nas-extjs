@@ -89,10 +89,14 @@ module NasExtjs
             end
             if opts[:sort]  && ! params[:sort].blank?
                 params[:sort].each do | fld, dir |
-                    query = query.order( fld.gsub(/[^\w|^\.]/,'') + ' ' + ( 'asc' == dir.downcase ? 'ASC' : 'DESC' ) )
+                    query = add_sort_to_query( query, fld.gsub(/[^\w|^\.]/,''), ( 'asc' == dir.downcase ) )
                 end
             end
             query
+        end
+
+        def add_sort_to_query( query, field, asc )
+            query.order( field + ' ' + ( asc ? 'ASC' : 'DESC' ) )
         end
 
         def api_query( klass, query = klass.all )
