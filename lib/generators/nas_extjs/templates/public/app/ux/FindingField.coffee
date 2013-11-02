@@ -66,16 +66,16 @@ Ext.define 'App.ux.FindingField'
     getSelectedRecord: ->
         return @record
 
-    setRecord: (@record)->
+    setRecord: (@record, options={} )->
         @suspendValueSet=true
         if @record
             this.setValue( @record.get( @searchKey ) )
-            this.fireEvent('recordset', this, @record  )
+            this.fireEvent('recordset', this, @record  ) unless options.silent
         else if ! @allowAnyValues
             this.setValue( '' )
-            this.fireEvent('invalidvalue', this )
+            this.fireEvent('invalidvalue', this ) unless options.silent
         else
-            this.fireEvent('newvalue', this, this.getValue() )
+            this.fireEvent('newvalue', this, this.getValue() ) unless options.silent
 
         @suspendValueSet=false
 

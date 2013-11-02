@@ -6,7 +6,7 @@ Ext.define 'App.ux.FinderWindow'
     height: 350
     autoDestroy: false
     closeAction: 'hide'
-    width: 600
+    width: 730
     modal: true
 
     layout:
@@ -56,6 +56,7 @@ Ext.define 'App.ux.FinderWindow'
 
         @grid.on('sortchange', (header,col, dir, opts )->
             @searchKey = col.queryBy
+            @dataType  = col.dataType if col.dataType
         , this )
         @grid.on('select', this.onRowSelected, this );
         this.on('hide', this.onHidden, this )
@@ -103,13 +104,17 @@ Ext.define 'App.ux.FinderWindow'
     setDestinationElement: ( @dest_element)->
 
     setStore: (@store)->
-        @grid.reconfigure( @store )
+        @grid.reconfigure( @store ) unless @store.buffered
         this
 
     listeners:
         show: ->
             @grid.getSelectionModel().deselectAll()
-            this.down('field[name=search]').focus(true,true)
+            Ext.Function.defer( @defaultSorter, 1, this )
+            Ext.Function.defer( @focus, 1, this )
+
+    focus: ->
+        this.down('field[name=search]').focus(true)
 
     show: ( @dest_element, options={} )->
         store = @grid.getStore()
@@ -121,11 +126,10 @@ Ext.define 'App.ux.FinderWindow'
             this.setTempAssociations.apply( this, options.temporary_associations )
         if options.temporary_filter
             this.setTempFilter( options.temporary_filter )
-        store.clearFilter() if @clearFilterOnShow
-        if @localFilter then  store.ensureLoaded() else store.load()
-
+        store.ensureLoaded() unless store.remoteSort
         this.callParent( arguments )
         Ext.Function.defer( @defaultSorter, 1, this )
+
 
     defaultSorter: ->
         column = @grid.columns[ 0 ]
@@ -172,7 +176,7 @@ Ext.define 'App.ux.FinderWindow'
             filter = {}
             if val
                 condition = filter[ @searchKey ] = { value: val }
-                if 'int' != @dataType
+                unless 'numeric' == @dataType
                     condition['op']     = 'like'
                     condition['value'] += '%'
                 Ext.apply( opts, {
