@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'find'
+require 'fileutils'
+
+if ARGV.empty?
+    STDERR.puts "useage: #{$0} <extjs dir>"
+end
+SRC_BASE  = ARGV[0]
+DEST_BASE = File.dirname(__FILE__) + "/lib/generators/nas_extjs/templates/public"
+
+Find.find(DEST_BASE) do |path|
+
+    if File.file?( path )
+        src = SRC_BASE + path.gsub( /^#{DEST_BASE}/,'' )
+        if File.exists?( src )
+            puts "#{src} -> #{path}"
+            FileUtils.cp( src, path )
+        end
+
+    end
+end
