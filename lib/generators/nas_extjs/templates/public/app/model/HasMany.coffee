@@ -10,14 +10,15 @@ Ext.define 'App.model.HasMany'
     constructor: (config) ->
         me = this
 
+
         unless config.model?
             config.model = 'App.model.' +
                 Ext.string.capitialize( Ext.util.Inflector.singularize( config.associatedName ) )
 
-        # if 'App.model.PurchaseOrder' == config.ownerModel
-        #      debugger
-
         me.callParent(arguments);
+
+        # if 'App.model.InventoryAdjustment' == config.ownerModel
+        #      debugger
 
         me.name = me.name || Ext.util.Inflector.pluralize(me.associatedName.toLowerCase());
 
@@ -62,13 +63,18 @@ Ext.define 'App.model.HasMany'
 
                 if that.setFilter && Ext.isFunction( that.setFilter )
                     Ext.apply( config, that.setFilter.apply( this, [that] ) )
-                else
+                else if ! that.nestedUrl
                     fb = {}
                     fb[ foreignKey ] = me.get(primaryKey)
                     config['filterBy'] = fb
 
-                me[storeName] = Ext.create( storeClass, config);
-
+                me[storeName] = store = Ext.create( storeClass, config);
+                if that.nestedUrl
+                    makeUrl = ->
+                        "#{me.proxy.url}/#{me.getId()}/#{that.nestedUrl}"
+                    store.proxy.url = makeUrl() unless this.phantom
+                    me.on('idchanged', makeUrl )
+                    me[storeName].nestedUrl = makeUrl
                 if (autoLoad)
                     me[storeName].load();
 

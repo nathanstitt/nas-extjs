@@ -8,22 +8,24 @@ Ext.define 'App.lib.Notification'
         display: ( options )->
             this._ensureWidget()
 
-            @widget.update( options.message ) if options.message
-            @widget.setTitle( options.title ) if options.title
-            @widget.setIconCls( "ux-notification-icon-#{options.icon}" ) if options.icon
+            @widget.update( if options.message then options.message else '' )
+            @widget.setTitle( if options.title then options.title else '' )
+            @widget.setIconCls( if options.icon then "ux-notification-icon-#{options.icon}" else '' )
             @widget.show()
             return @widget
 
         displayError: ( options )->
-            this.display( Ext.merge(options,{
+            if Ext.isString( options ) then options = { message: options }
+            this.display( Ext.merge({
                 icon: 'error', title: 'Error'
-            }))
+            }, options ))
 
         _ensureWidget: ->
             return if @widget
             @widget = Ext.create('App.ux.Notification', {
                 title: 'Notification'
                 position: 't'
+                minWidth: 200
                 closeAction: 'hide'
                 iconCls: 'ux-notification-icon-information'
                 autoCloseDelay: 7000

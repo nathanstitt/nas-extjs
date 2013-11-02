@@ -1,6 +1,8 @@
 
 Ext.define 'App.ux.SelectedColumn'
     extend: 'Ext.grid.column.Column'
+    width: 55
+    align: 'center'
     alias: 'widget.selectedcolumn'
 
     constructor: ->
@@ -14,6 +16,7 @@ Ext.define 'App.ux.SelectedColumn'
 
     processEvent: (type, view, cell, recordIndex, cellIndex, e)->
         if this.goodEventType( type,e )
+            return false if this.readonly
             record = view.panel.store.getAt(recordIndex)
             dataIndex = this.dataIndex
             checked = !record.get(dataIndex);

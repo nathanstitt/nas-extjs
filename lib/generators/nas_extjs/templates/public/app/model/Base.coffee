@@ -65,6 +65,18 @@ Ext.define 'App.model.Base'
                 delete data[name]
         data
 
+    callAction: ( action, opts )->
+        url = this.proxy.url + '/' + this.getId() + '/' + action
+        me = this
+        Ext.Ajax.request( Ext.merge( {}, opts, {
+            method: 'POST', url: url
+            callback: (op,success, resp )->
+                msg = Ext.JSON.decode( resp.responseText )
+                if opts.apply_data
+                    me.set(msg.data)
+                    me.commit()
+                Ext.callback( opts.callback, opts.scope || me, [ msg.data, me, op ] ) if opts.callback
+        } ) )
 
     copyFrom: (sourceRecord) ->
         this.callParent( arguments )
@@ -93,7 +105,7 @@ Ext.define 'App.model.Base'
 
     save: ( options={} )->
         options.includeAssociations ||= []
-
+        this.proxy.url = this.store.nestedUrl() if this.store && this.store.nestedUrl
         if options.syncAssociations
             for opt in options.syncAssociations
                 opt = Ext.Object.getKeys(opt)[0] if Ext.isObject( opt )
@@ -102,7 +114,6 @@ Ext.define 'App.model.Base'
                 this[ "sync_#{opt}" ] = true
             options.includeAssociations = Ext.Array.union( options.includeAssociations, options.syncAssociations )
             delete options.syncAssociations
-
         this.callParent( [options] )
 
     attrValues:( names... )->

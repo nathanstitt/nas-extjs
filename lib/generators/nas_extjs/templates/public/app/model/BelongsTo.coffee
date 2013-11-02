@@ -18,8 +18,9 @@ Ext.define('App.model.BelongsTo', {
                     scope: scope||model
                     callback: options
                 }
+            assoc_data = model.raw || model.data || {}
 
-            if foreignKeyId && ! ( model[ me.instanceName ]? || model.data[ me.associationKey ]? ) && ! me.setFromStore(model,foreignKeyId)
+            if foreignKeyId && ! ( model[ me.instanceName ]? || assoc_data[ me.associationKey ]? ) && ! me.setFromStore(model,foreignKeyId)
 
                 overridden_cb = options.callback;
 
@@ -27,13 +28,12 @@ Ext.define('App.model.BelongsTo', {
                     rec[ model.inverseAssociationName ] = model if model.inverseAssociationName?
                     model[me.instanceName] = rec;
                     Ext.callback(overridden_cb, options.scope,[ rec, op ] );
-
                 me.associatedModel.load(foreignKeyId, options);
             else
                 if ! model[ me.instanceName ]?
-                    model[ me.instanceName ] = rec = new me.associatedModel( model.data[ me.associationKey ] )
+                    model[ me.instanceName ] = rec = new me.associatedModel( assoc_data[ me.associationKey ] )
                     rec[ me.inverseAssociationName ] = model if me.inverseAssociationName?
-                    delete model.data[ me.associationKey ]
+#                    delete model.data[ me.associationKey ]
 
                 record = model[ me.instanceName ]
                 if foreignKeyId

@@ -1,6 +1,7 @@
 # Utils for ExtJS
 
 PROXY_ERROR_HANDLER = (proxy, request, operation) ->
+    return if request.aborted
     msg = if request.responseText
             resp = Ext.decode(request.responseText,true);
             if resp and resp.message? then resp.message else 'Unknown error: Operation did not succeed'

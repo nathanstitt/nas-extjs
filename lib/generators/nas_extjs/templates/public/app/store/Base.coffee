@@ -63,7 +63,6 @@ Ext.define 'App.store.Base'
         this.getProxy().summaryFields = fields
         this
 
-
     setFilter: ( filt )->
         this.getProxy().filterBy = filt
         this
@@ -117,16 +116,18 @@ Ext.define 'App.store.Base'
         ( 0 != this.count() ) || this._isLoaded
     # was
     # ! ( 0 == this.count() ) && ( ! this.owningRecord || ! this.owningRecord.phantom ) && ( ! this._isLoaded? || ! this._isLoading() )
-    ensureLoaded: ->
-        unless @isLoaded()
-            this.load()
+    ensureLoaded: (cb)->
+        if @isLoaded()
+            Ext.callback(cb.callback, cb.scope, [this] ) if cb
+        else
+            this.load(cb)
         this
 
     unFilteredData: ->
         (this.snapshot || this.data)
 
     cancelLoad: ->
-        Ext.Ajax.abort( this._current_operation.request )
+        Ext.Ajax.abort( this._current_operation.request ) if this._current_operation
 
     _onBeforeLoad: ( me, operation )->
         this._current_operation = operation;
