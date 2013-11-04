@@ -16,8 +16,8 @@ Ext.define 'App.ux.Masking'
         @mask.show()
         this
 
-    onRequestComplete: (was_success, msg=null)->
-        if was_success then this.displaySuccess( msg ) else this.displayFailure(msg)
+    onRequestComplete: ( was_success, msg=null, opts={} )->
+        if was_success then this.displaySuccess( msg, opts ) else this.displayFailure( msg, opts )
 
     displaySuccess: ( msg = this.successMsg, opts={}  )->
         this._sceduleDestruct( opts.timeOut )
