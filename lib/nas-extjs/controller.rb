@@ -47,7 +47,8 @@ module NasExtjs
         def destroy
             rec = get_record_for_update
             check_authorization( :destroy, rec )
-            render json_reply( rec, api_reply_options.merge( { success: rec.destroy } ) )
+            rec.destroy
+            render json_reply( rec, api_reply_options.merge( { success: rec.errors.empty?  } ) )
         end
 
         protected
@@ -232,13 +233,14 @@ module NasExtjs
 
         def json_type_str( obj )
             if obj.kind_of?( ActiveRecord::Base )
-                if obj.new_record?
-                    "Create " + obj.class.model_name.human;
-                elsif obj.destroyed?
-                    "Destroy " + obj.class.model_name.human + ' (' + obj.id.to_s + ')';
-                else
-                    "Update " + obj.class.model_name.human +  ' (' + obj.id.to_s + ')';
-                end
+                action = if obj.id_changed?
+                             "Create"
+                         elsif obj.destroyed?
+                             "Destroy"
+                         else
+                             "Update"
+                         end
+                action + ' ' + obj.class.model_name.human
             else
                 "Listing"
             end
