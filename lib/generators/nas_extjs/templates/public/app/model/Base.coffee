@@ -75,7 +75,7 @@ Ext.define 'App.model.Base'
                 if opts.apply_data
                     me.set(msg.data)
                     me.commit()
-                Ext.callback( opts.callback, opts.scope || me, [ msg.data, me, op ] ) if opts.callback
+                Ext.callback( opts.callback, opts.scope || me, [ msg.data, { success: msg.success, record: me, response: msg, operation: op } ] ) if opts.callback
         } ) )
 
     copyFrom: (sourceRecord) ->
