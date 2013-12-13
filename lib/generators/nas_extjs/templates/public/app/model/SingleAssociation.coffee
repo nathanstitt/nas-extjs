@@ -32,7 +32,7 @@ Ext.define('App.model.SingleAssociation', {
         model[this.instanceName]?
 
     setFromStore: (model,fk)->
-        name = Util.baseClassName( this.associatedModel.getName() ).pluralize()
+        name = Util.pluralize( Util.baseClassName( this.associatedModel.getName() ) )
         store = Application.getStore(name)
         if store
             rec = store.getById( parseInt(fk) )
