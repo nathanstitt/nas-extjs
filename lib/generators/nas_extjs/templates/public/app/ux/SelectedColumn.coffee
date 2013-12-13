@@ -1,5 +1,4 @@
-
-Ext.define 'App.ux.SelectedColumn'
+Ext.define('App.ux.SelectedColumn', {
     extend: 'Ext.grid.column.Column'
     width: 55
     align: 'center'
@@ -39,8 +38,9 @@ Ext.define 'App.ux.SelectedColumn'
 
         return '<div class="' + cls.join(' ') + '">&#160;</div>'
 
+})
 
-Ext.define 'App.ux.ConditionalSelectedColumn'
+Ext.define('App.ux.ConditionalSelectedColumn', {
     extend: 'App.ux.SelectedColumn'
     alias: 'widget.conditional_selectedcolumn'
 
@@ -56,3 +56,4 @@ Ext.define 'App.ux.ConditionalSelectedColumn'
     processEvent: (type, view, cell, recordIndex, cellIndex, e)->
         if this.goodEventType( type, e ) && this.conditionCheck( view.getStore().getAt( recordIndex ) )
             this.callParent( arguments )
+})

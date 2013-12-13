@@ -11,7 +11,7 @@
 # *	Version: 2.1
 # *	Last changed date: 2012-08-12
 #
-Ext.define "App.ux.Notification"
+Ext.define( "App.ux.Notification", {
   extend: "Ext.window.Window"
   alias: "widget.uxNotification"
   cls: "ux-notification-window"
@@ -385,3 +385,4 @@ Ext.define "App.ux.Notification"
 # *                    (Dmurat) Enabled reuse of notifications (closeAction: 'hide')
 # *                    (Idonofrio) Destroying notification by default (closeAction: 'destroy')
 #
+})

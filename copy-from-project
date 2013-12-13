@@ -5,9 +5,10 @@ require 'fileutils'
 
 if ARGV.empty?
     STDERR.puts "useage: #{$0} <extjs dir>"
+    exit 1
 end
 SRC_BASE  = ARGV[0]
-DEST_BASE = File.dirname(__FILE__) + "/lib/generators/nas_extjs/templates/public"
+DEST_BASE = File.dirname(__FILE__) + "/lib/generators/nas_extjs/templates/public/app"
 
 Find.find(DEST_BASE) do |path|
 

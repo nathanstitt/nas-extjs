@@ -1,4 +1,4 @@
-Ext.define 'App.ux.Format'
+Ext.define( 'App.ux.Format', {
     singleton: true
 
     currency: Ext.util.Format.numberRenderer( '0,000.00' )
@@ -8,3 +8,6 @@ Ext.define 'App.ux.Format'
 
     shortTime: Ext.util.Format.dateRenderer( "Y-m-d h:ia" )
     shortDate: Ext.util.Format.dateRenderer( "Y-m-d" )
+
+
+})

@@ -17,7 +17,6 @@ Ext.define('App.lib.BuildURL', {
         u = Ext.data.proxy.Server.prototype.buildUrl
         Ext.data.proxy.Server.prototype.buildUrl = (req)->
             qs=u.apply(this,[req] )
-
             include = []
             opt_fields = []
             delete req.params.filter

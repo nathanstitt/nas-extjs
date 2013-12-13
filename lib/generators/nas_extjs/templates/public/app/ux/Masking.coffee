@@ -1,4 +1,4 @@
-Ext.define 'App.ux.Masking'
+Ext.define('App.ux.Masking', {
 
     statics:
         createAndShow: (element, options={})->
@@ -16,8 +16,8 @@ Ext.define 'App.ux.Masking'
         @mask.show()
         this
 
-    onRequestComplete: ( was_success, msg=null, opts={} )->
-        if was_success then this.displaySuccess( msg, opts ) else this.displayFailure( msg, opts )
+    onRequestComplete: (was_success, msg=null)->
+        if was_success then this.displaySuccess( msg ) else this.displayFailure(msg)
 
     displaySuccess: ( msg = this.successMsg, opts={}  )->
         this._sceduleDestruct( opts.timeOut )
@@ -46,6 +46,6 @@ Ext.define 'App.ux.Masking'
         if Ext.isFunction( @onDestroy )
             Ext.callback( @onDestroy )
 
-
+})
 
 App.Mask = App.ux.Masking.createAndShow

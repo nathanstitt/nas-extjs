@@ -1,5 +1,5 @@
 
-Ext.define 'App.model.HasMany'
+Ext.define('App.model.HasMany', {
 
     extend   : 'App.model.Association'
     alias    : 'association.hasmany'
@@ -27,7 +27,7 @@ Ext.define 'App.model.HasMany'
 
         Ext.applyIf(me, {
             storeName : name + "Store",
-            foreignKey: Util.baseClassName( me.ownerName ).underscore() + "_id"
+            foreignKey: App.Util.underscore( Util.baseClassName( me.ownerName ) ) + "_id"
             primaryKey: 'id'
         });
 
@@ -38,7 +38,7 @@ Ext.define 'App.model.HasMany'
         that            = this
         associatedModel = that.associatedModel
         storeClass      = that.storeClass ||
-           'App.store.' +   Ext.util.Inflector.pluralize( Util.baseClassName( that.model ) )
+           'App.store.' +  App.Util.pluralize( Util.baseClassName( that.model ) )
 
         storeName       = that.storeName
         foreignKey      = that.foreignKey
@@ -59,7 +59,8 @@ Ext.define 'App.model.HasMany'
                     remoteFilter : true,
                     modelDefaults: modelDefaults
                 });
-                config[ me.inverseAssociationName || 'owningRecord' ] = me
+                config[ me.inverseAssociationName ] = me if me.inverseAssociationName
+                config[ 'owningRecord' ] = me
 
                 if that.setFilter && Ext.isFunction( that.setFilter )
                     Ext.apply( config, that.setFilter.apply( this, [that] ) )
@@ -100,3 +101,4 @@ Ext.define 'App.model.HasMany'
                 store.data.each( (associatedRecord)->
                     associatedRecord[ inverse.instanceName ] = record;
                 )
+})

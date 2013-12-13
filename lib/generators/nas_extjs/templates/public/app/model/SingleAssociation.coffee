@@ -5,7 +5,7 @@ Ext.define('App.model.SingleAssociation', {
         associatedName = config.associatedName
 
         Ext.applyIf( config, {
-            model: 'App.model.' + associatedName.camelize()
+            model: 'App.model.' + App.Util.camelize( associatedName )
         } )
 
         this.callParent(arguments)
@@ -13,14 +13,15 @@ Ext.define('App.model.SingleAssociation', {
         ownerProto     = me.ownerModel.prototype
         Ext.applyIf(me, {
             name           : associatedName,
-            accessorName   : associatedName.camelize(),
+            accessorName   : App.Util.camelize( associatedName ),
             foreignKey     : associatedName.toLowerCase() + "_id",
-            instanceName   : associatedName.camelize() + 'BelongsToInstance',
+            instanceName   : App.Util.camelize( associatedName ) + 'BelongsToInstance',
             associationKey : associatedName.toLowerCase()
         })
 
         methods   = {}
-        methods[ me.getterName || "get#{me.accessorName}" ] = me.createGetter()
+        this.getterName ||= me.getterName || "get#{me.accessorName}"
+        methods[ this.getterName ] = me.createGetter()
         methods[ me.setterName || "set#{me.accessorName}" ] = me.createSetter()
         methods[ me.loadedName || "is#{me.accessorName}Loaded" ] = me.checkLoaded()
         Ext.apply( ownerProto, methods )

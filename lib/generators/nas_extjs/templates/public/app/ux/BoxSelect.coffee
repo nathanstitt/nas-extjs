@@ -1,5 +1,4 @@
-
-Ext.define "App.ux.BoxSelect",
+Ext.define( "App.ux.BoxSelect", {
     extend: "Ext.form.field.ComboBox"
     alias: ["widget.comboboxselect", "widget.boxselect"]
     requires: ["Ext.selection.Model", "Ext.data.Store", "App.ux.BoxSelectField"]
@@ -709,3 +708,4 @@ Ext.define "App.ux.BoxSelect",
                 me.fireEvent "autosize", me, height
                 me.lastInputHeight = height
                 delete me.autoSizing
+})

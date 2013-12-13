@@ -1,4 +1,4 @@
-Ext.define 'App.model.Base'
+Ext.define('App.model.Base', {
 
     extend   : 'Ext.data.Model'
     requires : [
@@ -75,7 +75,10 @@ Ext.define 'App.model.Base'
                 if opts.apply_data
                     me.set(msg.data)
                     me.commit()
-                Ext.callback( opts.callback, opts.scope || me, [ msg.data, { success: msg.success, record: me, response: msg, operation: op } ] ) if opts.callback
+                if opts.callback
+                    Ext.callback( opts.callback, opts.scope || me, [ msg.data,
+                        { success: msg.success, record: me, response: msg, operation: op }
+                    ])
         } ) )
 
     copyFrom: (sourceRecord) ->
@@ -132,3 +135,4 @@ Ext.define 'App.model.Base'
         for name in names
             ret[ prefix+name ] = this.get( name )
         ret
+})

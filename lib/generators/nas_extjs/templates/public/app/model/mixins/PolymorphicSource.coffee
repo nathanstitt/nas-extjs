@@ -1,4 +1,4 @@
-Ext.define 'App.model.mixins.PolymorphicSource'
+Ext.define('App.model.mixins.PolymorphicSource', {
 
     setSource: ( @polymorphicSource )->
         this.set({
@@ -9,3 +9,4 @@ Ext.define 'App.model.mixins.PolymorphicSource'
 
     getSource:->
         @polymorphicSource
+})

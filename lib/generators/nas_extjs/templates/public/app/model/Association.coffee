@@ -1,4 +1,4 @@
-Ext.define 'App.model.Association'
+Ext.define('App.model.Association', {
 
     statics:
         AUTO_ID: 1000
@@ -58,3 +58,4 @@ Ext.define 'App.model.Association'
             me.reader = Ext.createByAlias('reader.' + reader.type, reader);
 
         return me.reader || null;
+})

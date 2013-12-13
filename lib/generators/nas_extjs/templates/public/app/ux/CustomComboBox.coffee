@@ -1,4 +1,4 @@
-Ext.define 'App.ux.CustomComboBox'
+Ext.define('App.ux.CustomComboBox', {
     alias: 'widget.custom_combobox'
     extend: 'Ext.form.field.ComboBox'
 
@@ -23,3 +23,4 @@ Ext.define 'App.ux.CustomComboBox'
         if 'remote' == this.queryMode
             this.on('beforequery', this.wildCardRemoteQuery )
         this
+})

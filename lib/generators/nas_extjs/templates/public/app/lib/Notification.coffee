@@ -1,4 +1,4 @@
-Ext.define 'App.lib.Notification'
+Ext.define( 'App.lib.Notification', {
 
     requires: [
         'App.ux.Notification'
@@ -33,3 +33,6 @@ Ext.define 'App.lib.Notification'
                 spacing: 20
                 html: ''
             })
+
+
+})

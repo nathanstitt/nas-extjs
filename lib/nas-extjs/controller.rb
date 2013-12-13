@@ -233,7 +233,7 @@ module NasExtjs
 
         def json_type_str( obj )
             if obj.kind_of?( ActiveRecord::Base )
-                action = if obj.id_changed?
+                action = if obj.new_record? || obj.id_changed?
                              "Create"
                          elsif obj.destroyed?
                              "Destroy"

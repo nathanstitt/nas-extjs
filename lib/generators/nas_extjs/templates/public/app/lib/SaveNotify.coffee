@@ -1,4 +1,4 @@
-Ext.define 'App.lib.SaveNotify'
+Ext.define( 'App.lib.SaveNotify', {
 
     statics:
         createAndShow: (element)->
@@ -46,6 +46,6 @@ Ext.define 'App.lib.SaveNotify'
             Ext.callback( @saveOptions[@status], @saveOptions.scope, @args )
 
 
-
+})
 
 App.SaveNotify = App.lib.SaveNotify.createAndShow

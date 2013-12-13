@@ -1,4 +1,4 @@
-Ext.define 'App.ux.CodeField'
+Ext.define('App.ux.CodeField', {
     alias: 'widget.code_field'
     extend: 'App.ux.FindingField'
     onlyValidRecords: true
@@ -27,3 +27,4 @@ Ext.define 'App.ux.CodeField'
 
     allowAnyValidator: ->
         return true
+})

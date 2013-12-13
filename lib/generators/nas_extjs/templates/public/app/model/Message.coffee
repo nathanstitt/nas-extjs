@@ -1,4 +1,4 @@
-Ext.define 'App.model.Message'
+Ext.define('App.model.Message', {
 
     extend: 'App.model.Base'
 
@@ -57,3 +57,4 @@ Ext.define 'App.model.Message'
                     src.set( rec.data.source )
                 Ext.callback( options.success, options.scope, [this])
         })
+})

@@ -1,5 +1,4 @@
 `
-
 Ext.define('App.ux.DateTimePicker', {
 	  extend: 'Ext.picker.Date',
 	  alias: 'widget.datetimepicker',

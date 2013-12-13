@@ -1,4 +1,4 @@
-Ext.define 'App.store.mixins.HasSelections'
+Ext.define('App.store.mixins.HasSelections', {
 
     _isSelected: (rec )->
         rec.get('is_selected') == true
@@ -8,3 +8,4 @@ Ext.define 'App.store.mixins.HasSelections'
 
     hasSelection: ->
         this.findRecord('is_selected', true )
+})

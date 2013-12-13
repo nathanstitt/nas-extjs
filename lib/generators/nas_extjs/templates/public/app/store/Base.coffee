@@ -1,4 +1,4 @@
-Ext.define 'App.store.Base'
+Ext.define('App.store.Base', {
 
     extend   : 'Ext.data.Store'
     buffered : false
@@ -113,11 +113,10 @@ Ext.define 'App.store.Base'
         this
 
     isLoaded: ->
-        ( 0 != this.count() ) || this._isLoaded
-    # was
-    # ! ( 0 == this.count() ) && ( ! this.owningRecord || ! this.owningRecord.phantom ) && ( ! this._isLoaded? || ! this._isLoading() )
+        !! ( 0 != this.count() ) || this._isLoaded || this.isLoading()
+
     ensureLoaded: (cb)->
-        if @isLoaded()
+        if @isLoaded() || ( this.owningRecord && this.owningRecord.phantom )
             Ext.callback(cb.callback, cb.scope, [this] ) if cb
         else
             this.load(cb)
@@ -136,3 +135,4 @@ Ext.define 'App.store.Base'
     _onLoad: (a,b,c)->
         this._isLoaded = true
         this.removeListener('load', this._onLoad )
+})

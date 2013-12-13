@@ -179,6 +179,6 @@ Ext.define('App.ux.TimePickerField', {
 	  validate: function() {
 		  return this.hoursSpinner.validate() && this.minutesSpinner.validate() && this.secondsSpinner.validate();
 	  }
-  });
 
+})
 `

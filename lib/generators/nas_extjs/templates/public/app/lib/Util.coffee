@@ -29,6 +29,27 @@ window.Util =
                .replace(/-/g, '_')
                .toLowerCase()
 
+    pluralize: (str)->Ext.util.Inflector.pluralize(str)
+    titleize: (str)->
+        String(str).replace(/(?:^|\s)\S/g, (c)-> return c.toUpperCase() )
+
+    camelize: (str, lowFirstLetter=false)->
+        str = str.toLowerCase()
+        str_path = str.split("/")
+        i = 0
+
+        while i < str_path.length
+            str_arr = str_path[i].split("_")
+            initX = ((if (lowFirstLetter and i + 1 is str_path.length) then (1) else (0)))
+            x = initX
+
+            while x < str_arr.length
+                str_arr[x] = str_arr[x].charAt(0).toUpperCase() + str_arr[x].substring(1)
+                x++
+            str_path[i] = str_arr.join("")
+            i++
+        str_path.join("::")
+
     baseClassName: ( name ) ->
         if Ext.isObject( name )
             name = Ext.getClassName( name )
