@@ -2,14 +2,18 @@
 Ext.define('App.lib.BuildURL', {
     singleton:true
 
-    filter_to_url_frag:( filter )->
+    to_url_frag:( filter, name )->
         qs = ''
-        for k,v of filter
-            if Ext.isObject(v)
-                for query_key,query_val of v
-                    qs += "&query[#{escape(k)}][#{escape(query_key)}]=#{escape(query_val)}"
+        for flk,flv of filter # FIXME - rewrite this to be recursive so it can handle arbitray depth
+            if Ext.isObject(flv)
+                for slk,slv of flv
+                    if Ext.isObject(slv)
+                        for tlk,tlv of slv
+                            qs += "&#{name}[#{escape(flk)}][#{escape(slk)}][#{escape(tlk)}]=#{escape(tlv)}"
+                    else
+                        qs += "&#{name}[#{escape(flk)}][#{escape(slk)}]=#{escape(slv)}"
             else
-                qs += "&query[#{escape(k)}]=#{escape(v)}"
+                qs += "&#{name}[#{escape(flk)}]=#{escape(flv)}"
         qs
 
 
@@ -22,26 +26,24 @@ Ext.define('App.lib.BuildURL', {
             delete req.params.filter
 
             if queryScope = req.operation.queryScope || this.queryScope
-                for name,data of queryScope
-                    qs += "&scope[#{escape(name)}]=#{escape(data)}"
+                qs += App.lib.BuildURL.to_url_frag( queryScope, 'scope' )
 
             if this.filterBy
-                qs += App.lib.BuildURL.filter_to_url_frag( this.filterBy )
+                qs += App.lib.BuildURL.to_url_frag( this.filterBy, 'query' )
 
             if req.operation.filterBy
-                qs += App.lib.BuildURL.filter_to_url_frag( req.operation.filterBy )
+                qs += App.lib.BuildURL.to_url_frag( req.operation.filterBy, 'query' )
 
             if req.operation.summaryFields
                 qs += "&summaryFields[]=#{escape(field)}" for field in req.operation.summaryFields
             if this.summaryFields
                 qs += "&summaryFields[]=#{escape(field)}" for field in this.summaryFields
 
-            if req.operation.sorters
+            if req.operation.sorters && req.operation.sorters.length
                 delete req.params['sort']
                 sort = for sorter in req.operation.sorters
                     "sort[#{sorter.property}]=#{sorter.direction}"
                 qs += '&' + sort.join('&')
-
 
             include = include.concat( req.operation.includeAssociations ) if req.operation.includeAssociations
             include = include.concat(  this.includeAssociations ) if this.includeAssociations

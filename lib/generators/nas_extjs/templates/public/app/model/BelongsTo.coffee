@@ -3,8 +3,6 @@ Ext.define('App.model.BelongsTo', {
     extend: 'App.model.SingleAssociation'
     alias: 'association.belongsto'
 
-
-
     createGetter: ->
         me = this
 

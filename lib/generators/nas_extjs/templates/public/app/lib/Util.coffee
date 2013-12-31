@@ -62,6 +62,7 @@ window.Util =
             type                  : 'rest',
             url                   : '/api/' + name
             setAssociations       : options['setAssociations'] || []
+            queryScope            : options['queryScope'] || {}
             encodeSorters         : PROXY_SORTERS
             includeOptionalFields : options['includeOptionalFields'] || []
             setFilter             : options['setFilter']

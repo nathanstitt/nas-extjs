@@ -54,7 +54,7 @@ Ext.define('App.store.Base', {
             includeAssociations: prx.includeAssociations,
             queryScope: prx.queryScope
         }, options ) )
-
+        store.proxy      = prx
         store.sorters    = this.sorters
         store.totalCount = this.totalCount
         store

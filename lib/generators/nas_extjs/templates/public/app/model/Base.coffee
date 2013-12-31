@@ -9,6 +9,18 @@ Ext.define('App.model.Base', {
         'Ext.data.proxy.Ajax'
         'Ext.util.Inflector'
     ]
+    statics:
+        callAction: (me,opts)->
+            me=this
+            cb=opts.callback
+            Ext.Ajax.request( Ext.merge( {}, opts, {
+                method: 'POST',
+                callback: (op,success, resp )->
+                    msg = Ext.JSON.decode( resp.responseText )
+                    Ext.callback( cb.callback, cb.scope || me, [ msg.data,
+                        { success: msg.success, record: me, response: msg, operation: op }
+                    ])
+            }) )
 
     constructor: (options={})->
         if ! this.proxy and this.api_key
