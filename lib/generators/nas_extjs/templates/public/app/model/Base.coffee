@@ -113,7 +113,7 @@ Ext.define('App.model.Base', {
                     delete this["sync_#{assoc.associatedName}"]
                     this[ assoc.associatedName ]().loadRecords( new_records.getRange(), { addRecords: false } )
                 else
-                    this[ assoc.associatedName ]().each ( our_rec )->
+                    for our_rec in this[ assoc.associatedName ]().getRange()
                         if ( new_rec = new_records.get( our_rec.getId() ) )
                             our_rec.copyFrom( new_rec )
         , this )

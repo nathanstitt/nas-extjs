@@ -152,7 +152,7 @@ module NasExtjs
             when 'eq'   then field.eq(value)
             when 'ne'   then field.not_eq(value)
             when 'lt'   then field.lt(value)
-            when ( 'in' && value=~/.*:.*/ ) then field.in( Range.new( *value.split(':') ) )
+            when ( op=='in' && value=~/.*:.*/ ) then field.in( Range.new( *value.split(':') ) )
             when 'gt'   then field.gt(value)
             when 'like' then field.matches( value )
             else
