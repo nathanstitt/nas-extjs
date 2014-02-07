@@ -2,6 +2,7 @@ module NasExtjs
 
     class Controller < ActionController::Base
 
+        around_filter   :capture_exceptions
         before_filter   :api_strip_record_id, :only=>[:create]
         class_attribute :model_class
         class_attribute :limit_query_results_to
@@ -22,7 +23,7 @@ module NasExtjs
             query = api_query( model_class )
             opts  = api_reply_options
             if params[:id]
-                query = query.where({ :id => params[:id] })
+                query = query.where({ :id => params[:id] }).first!
             end
             if nested_attribute && params[nested_attribute]
                 query = query.where( Hash[ nested_attribute, params[nested_attribute] ] )
@@ -53,6 +54,16 @@ module NasExtjs
 
         protected
 
+        def capture_exceptions
+            yield
+        rescue ActiveRecord::RecordInvalid=>e
+            render json_reply( e.record, false )
+        rescue ActiveRecord::RecordNotFound=>e
+            render :json => {
+                :success => false,
+                :message => model_class.model_name.human + " or one of it's related records was not found"
+            }, :status=>:not_found
+        end
 
         def check_authorization( method, rec )
             # NOOP, intended to be override by projects that use cancan
